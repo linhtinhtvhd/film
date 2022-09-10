@@ -1,0 +1,42 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #e41a1a;
+    --white: #fff;
+    --border-button-white: #f8f9fa;
+    --bg-color-content: #1e2129;
+    --default-header-height: 80px;
+    --default-layout-width: 1140px;
+    --font-family-header: 'Poppins', sans-serif;
+    --font-family-content: 'Quicksand', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: var(--font-family-header);
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+}
+button,
+input,
+[tabindex] {
+    border: none;
+    outline: none;
+}
+a[href] {
+    text-decoration: none;
+}
+ul {
+    list-style: none;
+}
