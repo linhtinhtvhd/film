@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import SwiperCore, { Navigation } from 'swiper';
@@ -15,6 +15,13 @@ import Similar from '~/layouts/components/Similar';
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
 function Watch() {
+    const location = useLocation();
+    const search = location.search;
+
+    const params = new URLSearchParams(search);
+    let seso = params.get('season');
+    let esp = params.get('episode');
+
     let type = 'movie';
     if (window.location.href.includes(type)) {
         type = 'movie';
@@ -32,9 +39,12 @@ function Watch() {
     const [similar, setSimilar] = useState([]);
     const [season, setSeason] = useState(1);
     const [episode, setEpisode] = useState(1);
-    const [active, setActive] = useState();
-    const [episodeNb, setEpisodeNb] = useState();
+    const [active, setActive] = useState(1);
+    const [activeSeason, setActiveSeason] = useState(1);
+
     const [episodeNumber, setEpisodeNumber] = useState([]);
+
+    const [seasonNumber, setSeasonNumber] = useState([]);
     const handleWatch = () => {
         setWatch(true);
         window.scrollTo({
@@ -42,6 +52,7 @@ function Watch() {
             top: button1Ref.current.offsetTop,
         });
     };
+
     useEffect(() => {
         window.scrollTo({
             behavior: 'smooth',
@@ -57,42 +68,70 @@ function Watch() {
                 });
 
                 setFilm(res);
-
-                const featchApiCast = async () => {
-                    try {
-                        const res = await request.get(`${type}/${id}/credits`, {
-                            params: {
-                                api_key: `${api.key}`,
-                                language: 'en-US',
-                            },
-                        });
-                        setCast(res.cast.splice(0, 10));
-                    } catch (error) {}
-                };
-                featchApiCast();
+                setSeasonNumber((prev = []) => {
+                    prev = [];
+                    for (let i = 1; i <= res.number_of_seasons; i++) {
+                        prev.push(i);
+                    }
+                    return prev;
+                });
             } catch (error) {}
-            const featchApiSimilar = async () => {
-                try {
-                    const res = await request.get(`${type}/${id}/similar`, {
-                        params: {
-                            api_key: `${api.key}`,
-                            language: 'en-US',
-                        },
-                    });
-                    setSimilar(res.results);
-                } catch (error) {}
-            };
-            featchApiSimilar();
         };
         featchApi();
+        const featchApiIdseason = async () => {
+            try {
+                const res = await request.get(`${type}/${id}/season/${season}`, {
+                    params: {
+                        api_key: `${api.key}`,
+                        language: 'en-US',
+                    },
+                });
+                setEpisodeNumber((prev = []) => {
+                    prev = [];
+                    for (let i = 1; i <= res.episodes.length; i++) {
+                        prev.push(i);
+                    }
+                    return prev;
+                });
+            } catch (error) {}
+        };
+        featchApiIdseason();
+        const featchApiCast = async () => {
+            try {
+                const res = await request.get(`${type}/${id}/credits`, {
+                    params: {
+                        api_key: `${api.key}`,
+                        language: 'en-US',
+                    },
+                });
+                setCast(res.cast.splice(0, 10));
+            } catch (error) {}
+        };
+        featchApiCast();
+
+        const featchApiSimilar = async () => {
+            try {
+                const res = await request.get(`${type}/${id}/similar`, {
+                    params: {
+                        api_key: `${api.key}`,
+                        language: 'en-US',
+                    },
+                });
+                setSimilar(res.results);
+            } catch (error) {}
+        };
+        featchApiSimilar();
+
         setWatch(false);
+        setSeason(seso || 1);
+        setEpisode(esp || 1);
+        setActiveSeason(seso || 1);
+        setActive(esp || 1);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
-    let seasonNumber = [];
-
-    for (let i = 1; i <= film.number_of_seasons; i++) {
-        seasonNumber.push(i);
-    }
+    console.log(activeSeason);
+    console.log(seasonNumber);
 
     return (
         <>
@@ -137,6 +176,8 @@ function Watch() {
                                             src={
                                                 type === 'movie'
                                                     ? `https://www.2embed.to/embed/tmdb/movie?id=${id}`
+                                                    : seso
+                                                    ? `https://www.2embed.to/embed/tmdb/tv?id=${id}&s=${seso}&e=${esp}`
                                                     : `https://www.2embed.to/embed/tmdb/tv?id=${id}&s=${season}&e=${episode}`
                                             }
                                             frameBorder="0"
@@ -146,35 +187,46 @@ function Watch() {
                                     <div className={cx('season')}>
                                         {seasonNumber.map((result) => {
                                             return (
-                                                <button
-                                                    key={result}
-                                                    id={result}
-                                                    onClick={(e) => {
-                                                        setSeason(result);
-                                                        id = film.seasons[season].id;
-                                                        setEpisodeNb(film.number_of_episodes);
-                                                        console.log(episodeNb);
-                                                    }}
-                                                >
-                                                    Season {result}
-                                                </button>
+                                                <Link to={`/${type}/${id}?season=${result}&episode=${episode}`}>
+                                                    <button
+                                                        key={result}
+                                                        id={result}
+                                                        className={cx(
+                                                            `btn`,
+                                                            `${activeSeason === result ? 'active' : undefined}`,
+                                                        )}
+                                                        onClick={() => {
+                                                            setActiveSeason(result);
+                                                            setSeason(result);
+                                                            seso = season;
+                                                        }}
+                                                    >
+                                                        Season {result}
+                                                    </button>
+                                                </Link>
                                             );
                                         })}
                                     </div>
                                     <div className={cx('episode')}>
                                         {episodeNumber.map((result) => {
                                             return (
-                                                <button
-                                                    key={result}
-                                                    id={result}
-                                                    className={cx(`btn`, `${active === result ? 'active' : undefined}`)}
-                                                    onClick={(e) => {
-                                                        setActive(result);
-                                                        setEpisode(result);
-                                                    }}
-                                                >
-                                                    tap {result}
-                                                </button>
+                                                <Link to={`/${type}/${id}?season=${season}&episode=${result}`}>
+                                                    <button
+                                                        key={result}
+                                                        id={result}
+                                                        className={cx(
+                                                            `btn`,
+                                                            `${active === result ? 'active' : undefined}`,
+                                                        )}
+                                                        onClick={() => {
+                                                            setActive(result);
+                                                            setEpisode(result);
+                                                            esp = episode;
+                                                        }}
+                                                    >
+                                                        tap {result}
+                                                    </button>
+                                                </Link>
                                             );
                                         })}
                                     </div>

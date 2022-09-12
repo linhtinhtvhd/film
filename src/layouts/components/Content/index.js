@@ -15,17 +15,25 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import Button from '~/components/Button';
+import Genre from '~/apiServices/genreService';
 
 const cx = classNames.bind(styles);
 
 function Content() {
     const [moviePopular, setMoviePupular] = useState([]);
+    const [genreApi, setGenreApi] = useState([]);
+    const [genre, setGenre] = useState([]);
     useEffect(() => {
         const featchApi = async () => {
             const result = await MvPopular();
             setMoviePupular(result.splice(0, 5));
         };
         featchApi();
+        const featchApiGenre = async () => {
+            const res = await Genre();
+            setGenreApi(res.genres);
+        };
+        featchApiGenre();
     }, []);
     return (
         <div className={cx('wrapper')}>
@@ -45,6 +53,7 @@ function Content() {
                 className={cx('mySwiper')}
             >
                 {moviePopular.map((result) => {
+                    // console.log(genre);
                     return (
                         <SwiperSlide className={cx('big-content')} key={result.id}>
                             <img src={`${api.img}${result.backdrop_path}`} className={cx('img-content')} alt="film" />
@@ -58,10 +67,10 @@ function Content() {
                                     </div>
                                     <ul className={cx('Rate-genre')}>
                                         <li>
-                                            <strong>Rated:</strong> {result.ote_average}
+                                            <strong>Rated:</strong> {result.vote_average}
                                         </li>
                                         <li>
-                                            <strong>Genre:</strong> Horror, Comedy, Action, Sci-Fi.
+                                            <strong>Genre:</strong>
                                         </li>
                                     </ul>
                                     <p className={cx('plot')}>{result.overview}</p>
