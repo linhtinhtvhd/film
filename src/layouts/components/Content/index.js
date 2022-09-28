@@ -53,7 +53,6 @@ function Content() {
                 className={cx('mySwiper')}
             >
                 {moviePopular.map((result) => {
-                    // console.log(genre);
                     return (
                         <SwiperSlide className={cx('big-content')} key={result.id}>
                             <img src={`${api.img}${result.backdrop_path}`} className={cx('img-content')} alt="film" />

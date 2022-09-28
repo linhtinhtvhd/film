@@ -1,0 +1,14 @@
+.wrapper {
+    padding-top: var(--default-header-height);
+    background-color: var(--bg-color-content);
+}
+.container {
+    display: flex;
+    width: calc(100% - var(--default-sidebar-width));
+    padding-left: 40px;
+}
+.inner {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}

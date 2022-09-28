@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
@@ -53,4 +54,4 @@ function Cast({ cast }) {
     );
 }
 
-export default Cast;
+export default memo(Cast);

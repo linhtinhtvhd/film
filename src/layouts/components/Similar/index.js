@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Link } from 'react-router-dom';
@@ -58,4 +59,4 @@ function Similar({ similar, type }) {
     );
 }
 
-export default Similar;
+export default memo(Similar);

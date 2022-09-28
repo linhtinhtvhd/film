@@ -34,6 +34,11 @@ function Header() {
                                 </Link>
                             </li>
                             <li className={cx('item-menu')}>
+                                <Link to={`/explore/movie`} className={cx('menu-link')}>
+                                    Explore
+                                </Link>
+                            </li>
+                            <li className={cx('item-menu')}>
                                 <Link to={config.routes.contact} className={cx('menu-link')}>
                                     Contact Us
                                 </Link>

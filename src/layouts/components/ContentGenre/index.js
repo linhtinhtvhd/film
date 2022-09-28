@@ -1,7 +1,5 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import api from '~/assets/Api';
+
 import styles from './ContentGenre.module.scss';
 
 const cx = classNames.bind(styles);
@@ -22,21 +20,37 @@ function ContentGenre() {
             <div className={cx('content')}>
                 <div className={cx('content-left')}>
                     <div className={cx('genre-item')}>
-                        <img className={cx('genre-img')} src="http://akthemes.com/video/images/category/horror.jpg" />
+                        <img
+                            className={cx('genre-img')}
+                            src="http://akthemes.com/video/images/category/horror.jpg"
+                            alt="img"
+                        />
                         <span>Horror</span>
                     </div>
                     <div className={cx('genre-item')}>
-                        <img className={cx('genre-img')} src="http://akthemes.com/video/images/category/comedy.jpg" />
+                        <img
+                            className={cx('genre-img')}
+                            src="http://akthemes.com/video/images/category/comedy.jpg"
+                            alt="img"
+                        />
                         <span>Comedy</span>
                     </div>
                 </div>
                 <div className={cx('content-right')}>
                     <div className={cx('genre-item')}>
-                        <img className={cx('genre-img')} src="http://akthemes.com/video/images/category/sci.jpg" />
+                        <img
+                            className={cx('genre-img')}
+                            src="http://akthemes.com/video/images/category/sci.jpg"
+                            alt="img"
+                        />
                         <span>Sci-Fi</span>
                     </div>
                     <div className={cx('genre-item')}>
-                        <img className={cx('genre-img')} src="http://akthemes.com/video/images/category/action.jpg" />
+                        <img
+                            className={cx('genre-img')}
+                            src="http://akthemes.com/video/images/category/action.jpg"
+                            alt="img"
+                        />
                         <span>Actions</span>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import { Link, useParams, useLocation } from 'react-router-dom';
+import { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import SwiperCore, { Navigation } from 'swiper';
@@ -6,11 +7,12 @@ import * as request from '~/utils/request';
 import Header from '~/layouts/DefaultLayout/Header';
 import styles from './Watch.module.scss';
 import api from '~/assets/Api';
-import Button from '~/components/Button';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import Cast from '~/layouts/components/Cast';
 import Similar from '~/layouts/components/Similar';
+import WatchFilm from '~/layouts/components/WatchFilm';
 
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
@@ -41,17 +43,16 @@ function Watch() {
     const [episode, setEpisode] = useState(1);
     const [active, setActive] = useState(1);
     const [activeSeason, setActiveSeason] = useState(1);
-
     const [episodeNumber, setEpisodeNumber] = useState([]);
-
     const [seasonNumber, setSeasonNumber] = useState([]);
-    const handleWatch = () => {
+
+    const handleWatch = useCallback(() => {
         setWatch(true);
         window.scrollTo({
             behavior: 'smooth',
             top: button1Ref.current.offsetTop,
         });
-    };
+    }, []);
 
     useEffect(() => {
         window.scrollTo({
@@ -66,7 +67,35 @@ function Watch() {
                         language: 'en-US',
                     },
                 });
+                if (type === 'tv') {
+                    const result = await request.get(`${type}/${id}/season/${season}`, {
+                        params: {
+                            api_key: `${api.key}`,
+                            language: 'en-US',
+                        },
+                    });
+                    setEpisodeNumber((prev = []) => {
+                        prev = [];
+                        for (let i = 1; i <= result.episodes.length; i++) {
+                            prev.push(i);
+                        }
+                        return prev;
+                    });
+                }
 
+                const resCast = await request.get(`${type}/${id}/credits`, {
+                    params: {
+                        api_key: `${api.key}`,
+                        language: 'en-US',
+                    },
+                });
+
+                const reSimailar = await request.get(`${type}/${id}/similar`, {
+                    params: {
+                        api_key: `${api.key}`,
+                        language: 'en-US',
+                    },
+                });
                 setFilm(res);
                 setSeasonNumber((prev = []) => {
                     prev = [];
@@ -75,52 +104,12 @@ function Watch() {
                     }
                     return prev;
                 });
+
+                setCast(resCast.cast.splice(0, 10));
+                setSimilar(reSimailar.results);
             } catch (error) {}
         };
         featchApi();
-        const featchApiIdseason = async () => {
-            try {
-                const res = await request.get(`${type}/${id}/season/${season}`, {
-                    params: {
-                        api_key: `${api.key}`,
-                        language: 'en-US',
-                    },
-                });
-                setEpisodeNumber((prev = []) => {
-                    prev = [];
-                    for (let i = 1; i <= res.episodes.length; i++) {
-                        prev.push(i);
-                    }
-                    return prev;
-                });
-            } catch (error) {}
-        };
-        featchApiIdseason();
-        const featchApiCast = async () => {
-            try {
-                const res = await request.get(`${type}/${id}/credits`, {
-                    params: {
-                        api_key: `${api.key}`,
-                        language: 'en-US',
-                    },
-                });
-                setCast(res.cast.splice(0, 10));
-            } catch (error) {}
-        };
-        featchApiCast();
-
-        const featchApiSimilar = async () => {
-            try {
-                const res = await request.get(`${type}/${id}/similar`, {
-                    params: {
-                        api_key: `${api.key}`,
-                        language: 'en-US',
-                    },
-                });
-                setSimilar(res.results);
-            } catch (error) {}
-        };
-        featchApiSimilar();
 
         setWatch(false);
         setSeason(seso || 1);
@@ -129,9 +118,6 @@ function Watch() {
         setActive(esp || 1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
-
-    console.log(activeSeason);
-    console.log(seasonNumber);
 
     return (
         <>
@@ -142,30 +128,8 @@ function Watch() {
             <div className={cx('container')}>
                 <div className={cx('wrapper')}>
                     <div className={cx('inner')}>
-                        <div className={cx('film')}>
-                            <img src={`${api.img}${film.backdrop_path}`} alt="film" className={cx('img-content')} />
-                            <div className={cx('content-film')}>
-                                <div className={cx('content-inner')}>
-                                    <img src={`${api.img}${film.poster_path}`} className={cx('img-film')} alt="film" />
-                                    <div className={cx('info-film')}>
-                                        <p className={cx('tittle-film')}>{film.original_title || film.name}</p>
+                        <WatchFilm film={film} handleWatch={handleWatch} />
 
-                                        <ul className={cx('Rate-genre')}>
-                                            <li>
-                                                <strong>Rated:</strong> {film.vote_average}
-                                            </li>
-                                        </ul>
-                                        <p className={cx('plot')}>{film.overview}</p>
-                                        <div className={cx('btn-watch')}>
-                                            <Button primary onClick={onclick} clickWatch={handleWatch}>
-                                                Watch
-                                            </Button>
-                                            <Button transparent>+ Add To Watchlist</Button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div ref={button1Ref} className={cx('main-content')}>
                             {watch && (
                                 <>

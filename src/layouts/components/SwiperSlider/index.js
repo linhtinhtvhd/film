@@ -16,15 +16,16 @@ import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
 
-function SwiperSlider({ custom_btn, tittle, service, href }) {
+function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, slidesPerGroup = 4 }) {
     const [answer, setAnswer] = useState([]);
     useEffect(() => {
         const featchApi = async () => {
             let fc = service;
             const result = await fc();
-            setAnswer(result.splice(0, 11));
+            setAnswer(result.splice(0, 15));
         };
         featchApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div className={cx('wrapper')}>
@@ -40,8 +41,8 @@ function SwiperSlider({ custom_btn, tittle, service, href }) {
                     <Swiper
                         className={cx('swper')}
                         spaceBetween={20}
-                        slidesPerView={4.5}
-                        slidesPerGroup={4}
+                        slidesPerView={slidesPerView}
+                        slidesPerGroup={slidesPerGroup}
                         loop={true}
                         navigation={{
                             nextEl: `.${custom_btn[0]}`,

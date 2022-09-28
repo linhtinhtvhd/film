@@ -1,13 +1,14 @@
 import * as request from '~/utils/request';
 import api from '~/assets/Api';
-const Genre = async (type) => {
+const MvUpComing = async () => {
     try {
-        const res = await request.get(`genre/${type}/list`, {
+        const res = await request.get(`movie/upcoming`, {
             params: {
                 api_key: `${api.key}`,
+                language: 'en-US',
             },
         });
-        return res.genres;
+        return res.results;
     } catch (error) {}
 };
-export default Genre;
+export default MvUpComing;
