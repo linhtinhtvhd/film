@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-
+import image from '~/img';
 import styles from './ContentGenre.module.scss';
 
 const cx = classNames.bind(styles);
@@ -20,37 +20,21 @@ function ContentGenre() {
             <div className={cx('content')}>
                 <div className={cx('content-left')}>
                     <div className={cx('genre-item')}>
-                        <img
-                            className={cx('genre-img')}
-                            src="http://akthemes.com/video/images/category/horror.jpg"
-                            alt="img"
-                        />
+                        <img className={cx('genre-img')} src={image.horror} alt="img" />
                         <span>Horror</span>
                     </div>
                     <div className={cx('genre-item')}>
-                        <img
-                            className={cx('genre-img')}
-                            src="http://akthemes.com/video/images/category/comedy.jpg"
-                            alt="img"
-                        />
+                        <img className={cx('genre-img')} src={image.comedy} alt="img" />
                         <span>Comedy</span>
                     </div>
                 </div>
                 <div className={cx('content-right')}>
                     <div className={cx('genre-item')}>
-                        <img
-                            className={cx('genre-img')}
-                            src="http://akthemes.com/video/images/category/sci.jpg"
-                            alt="img"
-                        />
+                        <img className={cx('genre-img')} src={image.sci} alt="img" />
                         <span>Sci-Fi</span>
                     </div>
                     <div className={cx('genre-item')}>
-                        <img
-                            className={cx('genre-img')}
-                            src="http://akthemes.com/video/images/category/action.jpg"
-                            alt="img"
-                        />
+                        <img className={cx('genre-img')} src={image.action} alt="img" />
                         <span>Actions</span>
                     </div>
                 </div>
