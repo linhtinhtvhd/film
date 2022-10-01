@@ -6,6 +6,10 @@ import api from '~/assets/Api';
 import * as request from '~/utils/request';
 import { SearchContext } from '~/layouts/SearchLayout/SearchContext';
 import { FaSearch } from 'react-icons/fa';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
+
 const cx = classNames.bind(styles);
 function Search() {
     const location = useLocation();
@@ -13,10 +17,19 @@ function Search() {
     const valueInput = useRef();
     let params = new URLSearchParams(search);
     const query = params.get('query');
+    let pag = params.get('page');
     const searchContext = useContext(SearchContext);
     const [films, setFilms] = useState(false);
+    const [numberPage, setNumberPage] = useState();
     const [page, setPage] = useState(1);
 
+    const handleChangePage = (event, value) => {
+        setPage(value);
+        window.scrollTo({
+            behavior: 'smooth',
+            top: valueInput.current.offsetTop,
+        });
+    };
     useEffect(() => {
         const featchApi = async () => {
             try {
@@ -24,17 +37,16 @@ function Search() {
                     params: {
                         api_key: `${api.key}`,
                         query: `${query}`,
-                        page: page,
+                        page: pag,
                     },
                 });
-
+                setNumberPage(res.total_pages);
                 setFilms((prev) => {
                     prev = res.results.filter((result) => {
                         return !!(result.poster_path || result.profile_path);
                     });
                     return prev;
                 });
-                console.log(films);
             } catch (error) {}
         };
 
@@ -91,6 +103,26 @@ function Search() {
                             </div>
                         );
                     })}
+                    <div className={cx('pagination')}>
+                        <Stack spacing={50}>
+                            <Pagination
+                                count={numberPage}
+                                variant="outlined"
+                                shape="rounded"
+                                size="large"
+                                color="primary"
+                                boundaryCount={2}
+                                onChange={handleChangePage}
+                                renderItem={(item) => (
+                                    <PaginationItem
+                                        component={Link}
+                                        to={`/search?query=${query}${item.page === 1 ? '' : `&&page=${item.page}`}`}
+                                        {...item}
+                                    />
+                                )}
+                            />
+                        </Stack>
+                    </div>
                 </div>
             ) : (
                 <div className={cx('error')}>

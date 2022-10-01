@@ -12,6 +12,8 @@ function Explore() {
     const genreContext = useContext(GenreContext);
     let { type } = useParams();
     let genres = genreContext.gen.join(',');
+    let valueMin = genreContext.valueMin[0];
+    let valueMax = genreContext.valueMin[1];
 
     const [films, setFilms] = useState([]);
     const [scroll, setScroll] = useState(0);
@@ -20,7 +22,7 @@ function Explore() {
     const [activeMv, setActiveMv] = useState(false);
     useEffect(() => {
         const featchApi = async () => {
-            const result = await Filter({ type, genres });
+            const result = await Filter({ type, genres, valueMin, valueMax });
             setFilms(result);
         };
         featchApi();
@@ -30,7 +32,7 @@ function Explore() {
         setScroll(0);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [type, genres]);
+    }, [type, genres, valueMin, valueMax]);
     useEffect(() => {
         const featchApii = async () => {
             const result = await Filter({ type, genres, page });
@@ -41,6 +43,8 @@ function Explore() {
             if (window.scrollY - scroll >= 500) {
                 setScroll((prev) => prev + 500);
                 setPage((prev) => prev + 1);
+                console.log(scroll);
+                console.log(page);
             }
         };
 

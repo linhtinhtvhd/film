@@ -119,3 +119,22 @@
     margin-top: 30px;
     color: var(--white);
 }
+.pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+
+    li {
+        div {
+            color: var(--white);
+        }
+
+        a {
+            color: var(--white);
+            background-color: #999;
+            margin-left: 20px;
+            font-size: 1.6rem;
+        }
+    }
+}

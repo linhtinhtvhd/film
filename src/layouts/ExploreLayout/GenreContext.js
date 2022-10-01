@@ -4,6 +4,7 @@ const GenreContext = createContext();
 
 function GenreProvider({ children }) {
     const [gen, setGen] = useState([]);
+    const [valueMin, setValueMin] = useState([0, 250]);
 
     const handleAddGenre = (id) => {
         setGen((prev) => {
@@ -16,7 +17,7 @@ function GenreProvider({ children }) {
         });
     };
 
-    const value = { gen, handleAddGenre };
+    const value = { gen, handleAddGenre, valueMin, setValueMin };
     return <GenreContext.Provider value={value}>{children}</GenreContext.Provider>;
 }
 

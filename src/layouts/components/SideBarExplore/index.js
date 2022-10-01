@@ -4,6 +4,8 @@ import Genre from '~/apiServices/genreService';
 import styles from './SideBarExplore.module.scss';
 import { useLocation, useParams } from 'react-router-dom';
 import { GenreContext } from '~/layouts/ExploreLayout/GenreContext';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 const cx = classNames.bind(styles);
 
 function SideBarExplore({ handle }) {
@@ -18,6 +20,10 @@ function SideBarExplore({ handle }) {
 
     const [genre, setGenre] = useState([]);
 
+    const handleChange = (event, newValue) => {
+        genreContext.setValueMin(newValue);
+    };
+
     useEffect(() => {
         const featchApi = async () => {
             try {
@@ -30,20 +36,43 @@ function SideBarExplore({ handle }) {
     }, [type]);
     return (
         <div className={cx('wrapper')}>
-            {genre.map((res) => {
-                return (
-                    <button
-                        className={cx(`btn-genre`, `${genreContext.gen.includes(res.id) ? 'active' : undefined}`)}
-                        key={res.id}
-                        onClick={() => {
-                            genreContext.handleAddGenre(res.id);
-                            handle();
-                        }}
-                    >
-                        {res.name}
-                    </button>
-                );
-            })}
+            <div className={cx('inner')}>
+                <div className={cx('menu-genres')}>
+                    {genre.map((res) => {
+                        return (
+                            <button
+                                className={cx(
+                                    `btn-genre`,
+                                    `${genreContext.gen.includes(res.id) ? 'active' : undefined}`,
+                                )}
+                                key={res.id}
+                                onClick={() => {
+                                    genreContext.handleAddGenre(res.id);
+                                    handle();
+                                }}
+                            >
+                                {res.name}
+                            </button>
+                        );
+                    })}
+                </div>
+                <div className={cx('minute')}>
+                    <h1>Runtime</h1>
+
+                    <Box sx={{ width: 200 }} className={cx('slider')}>
+                        <Slider
+                            getAriaLabel={() => 'Minute'}
+                            value={genreContext.valueMin}
+                            min={0}
+                            max={200}
+                            onChange={handleChange}
+                            valueLabelDisplay="auto"
+                        />
+                        <h4 className={cx('left')}>From {genreContext.valueMin[0]} min</h4>
+                        <h4 className={cx('right')}>To {genreContext.valueMin[1]} min</h4>
+                    </Box>
+                </div>
+            </div>
         </div>
     );
 }
