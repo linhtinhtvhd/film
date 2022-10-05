@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,7 +26,7 @@ function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, 
         const featchApi = async () => {
             let fc = service;
             const result = await fc();
-            setAnswer(result.splice(0, 15));
+            setAnswer(result.splice(0, 16));
         };
         featchApi();
         window.addEventListener('resize', handleWidth);
@@ -42,32 +42,28 @@ function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, 
                 <h1 className={cx('tittle')}>{tittle}</h1>
                 <div className={cx('swiper-slider')}>
                     <div>
-                        <button class={custom_btn[0]}>
+                        <button className={custom_btn[0]}>
                             <GrNext className={cx('custom_next')} />
                         </button>
-                        <button class={custom_btn[1]}>
+                        <button className={custom_btn[1]}>
                             <GrPrevious className={cx('custom_prev')} />
                         </button>
                         <Swiper
                             className={cx('swper')}
                             spaceBetween={20}
+                            modules={[Navigation]}
+                            slidesPerGroup={3}
                             slidesPerView={`${
                                 widthWindow >= 1024 && widthWindow < 1160
                                     ? 4
                                     : widthWindow >= 740 && widthWindow < 1024
                                     ? 3
-                                    : widthWindow <= 740
+                                    : widthWindow < 740
                                     ? 2
                                     : slidesPerView
                             }`}
-                            slidesPerGroup={`${
-                                widthWindow >= 740 && widthWindow < 1024 ? 3 : widthWindow <= 740 ? 2 : slidesPerGroup
-                            }`}
+                            navigation={{ nextEl: `.${custom_btn[0]}`, prevEl: `.${custom_btn[1]}` }}
                             loop={true}
-                            navigation={{
-                                nextEl: `.${custom_btn[0]}`,
-                                prevEl: `.${custom_btn[1]}`,
-                            }}
                         >
                             {answer.map((result) => {
                                 let a = ' ';
