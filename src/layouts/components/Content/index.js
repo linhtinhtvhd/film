@@ -68,9 +68,6 @@ function Content() {
                                         <li>
                                             <strong>Rated:</strong> {result.vote_average}
                                         </li>
-                                        <li>
-                                            <strong>Genre:</strong>
-                                        </li>
                                     </ul>
                                     <p className={cx('plot')}>{result.overview}</p>
 

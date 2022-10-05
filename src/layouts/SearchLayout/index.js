@@ -20,11 +20,16 @@ function SearchLayout({ children }) {
             <Header />
             <div className={cx('container')}>
                 <div className={cx('inner')}>
+                    <div className={cx('sidebar-top')}>
+                        <SideBarSearch handle={handleBtnRef} />
+                    </div>
                     <div ref={button1Ref} className={cx('content')}>
                         {children}
                     </div>
                 </div>
-                <SideBarSearch handle={handleBtnRef} />
+                <div className={cx('sidebar-left')}>
+                    <SideBarSearch handle={handleBtnRef} />
+                </div>
             </div>
         </div>
     );

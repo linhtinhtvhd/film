@@ -20,9 +20,15 @@
 .table-film {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
+    position: relative;
+    z-index: 1;
+}
+.btn-type {
+    display: flex;
+    justify-content: center;
 }
 .film {
-    margin-left: 20px;
     margin-top: 20px;
     width: 200px;
     cursor: pointer;
@@ -71,4 +77,14 @@
 }
 .active {
     background-color: rgb(200, 224, 21);
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .film {
+        width: 175px;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .film {
+        width: 170px;
+    }
 }

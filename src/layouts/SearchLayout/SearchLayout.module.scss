@@ -10,5 +10,31 @@
 .inner {
     display: flex;
     flex: 1;
-    justify-content: center;
+}
+.sidebar-top {
+    display: none;
+}
+.sidebar-left {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+@media only screen and (max-width: 739px) {
+    .container {
+        width: 100%;
+        padding: 0;
+    }
+    .sidebar-left {
+        display: none;
+    }
+    .sidebar-top {
+        display: block;
+    }
+    .inner {
+        flex-direction: column;
+        align-items: center;
+    }
 }

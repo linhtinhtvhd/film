@@ -1,10 +1,3 @@
-.wrapper {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: var(--default-sidebar-width);
-}
 .inner {
     display: flex;
     flex-direction: column;
@@ -15,7 +8,7 @@
     margin-right: 15px;
 }
 .menu-genres {
-    height: 500px;
+    height: 400px;
     overflow-y: overlay;
     overflow-y: scroll;
     display: flex;
@@ -74,4 +67,25 @@
 .menu-genres::-webkit-scrollbar-track {
     border-radius: 0;
     background-color: rgba(0, 0, 0, 0);
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .wrapper {
+        width: 250px;
+    }
+    .left {
+        position: absolute;
+        left: -10px;
+        top: -25px;
+    }
+    .right {
+        position: absolute;
+        right: -10px;
+        top: -25px;
+    }
+}
+
+@media only screen and (max-width: 739px) {
+    .menu-genres {
+        height: 200px;
+    }
 }

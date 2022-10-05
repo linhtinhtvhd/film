@@ -4,9 +4,19 @@
 }
 .container {
     display: flex;
+
     width: calc(100% - var(--default-sidebar-width));
-    padding-left: 40px;
 }
 .inner {
     display: flex;
+    justify-content: center;
+}
+@media screen and (max-width: 1420px) {
+    .wrapper {
+        display: flex;
+        justify-content: center;
+    }
+    .container {
+        justify-content: center;
+    }
 }

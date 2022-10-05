@@ -1,8 +1,11 @@
 .wrapper {
     margin-bottom: 30px;
+    max-width: var(--default-layout-width);
 }
 
 .swper {
+    display: flex;
+    justify-content: flex-start;
     padding: 20px 20px;
 }
 
@@ -32,7 +35,7 @@ svg {
     cursor: pointer;
 }
 .custom_next {
-    right: 10px;
+    right: 20px;
 }
 .custom_prev {
     left: 30px;
@@ -81,4 +84,14 @@ svg {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+}
+@media screen and (min-width: 1024px) and (max-width: 1160px) {
+    .wrapper {
+        width: 1024px;
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .wrapper {
+        width: 740px;
+    }
 }

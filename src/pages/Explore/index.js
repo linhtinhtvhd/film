@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import styles from './explore.module.scss';
 import { GenreContext } from '~/layouts/ExploreLayout/GenreContext';
 import { useContext, useEffect, useState } from 'react';
@@ -9,12 +9,16 @@ import api from '~/assets/Api';
 const cx = classNames.bind(styles);
 
 function Explore() {
+    const location = useLocation();
+    const search = location.search;
+    let params = new URLSearchParams(search);
+    let query = params.get('genre');
     const genreContext = useContext(GenreContext);
+
     let { type } = useParams();
     let genres = genreContext.gen.join(',');
     let valueMin = genreContext.valueMin[0];
     let valueMax = genreContext.valueMin[1];
-
     const [films, setFilms] = useState([]);
     const [scroll, setScroll] = useState(0);
     const [page, setPage] = useState(1);
@@ -32,7 +36,7 @@ function Explore() {
         setScroll(0);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [type, genres, valueMin, valueMax]);
+    }, [type, genres, valueMin, valueMax, query]);
     useEffect(() => {
         const featchApii = async () => {
             const result = await Filter({ type, genres, page });

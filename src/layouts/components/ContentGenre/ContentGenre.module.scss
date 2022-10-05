@@ -1,7 +1,9 @@
 .wrapper {
+    max-width: 1024px;
     display: flex;
     padding: 40px 0;
     padding-left: 20px;
+    justify-content: space-between;
 }
 .content-tittle {
     width: 50%;
@@ -45,7 +47,26 @@
     }
 }
 .genre-img {
-    width: 255px;
+    width: 225px;
     object-fit: contain;
     border-radius: 8px;
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .wrapper {
+        width: 740px;
+    }
+    .content-right {
+        display: none;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .wrapper {
+        width: 375px;
+    }
+    .content-tittle {
+        width: 100%;
+    }
+    .content {
+        display: none;
+    }
 }

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Search.module.scss';
 import { useContext, useEffect, useState, useRef } from 'react';
 import api from '~/assets/Api';
@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 
 const cx = classNames.bind(styles);
 function Search() {
+    const navigate = useNavigate();
     const location = useLocation();
     const search = location.search;
     const valueInput = useRef();
@@ -29,6 +30,14 @@ function Search() {
             behavior: 'smooth',
             top: valueInput.current.offsetTop,
         });
+    };
+    const handleInput = (e) => {
+        searchContext.setSearchValue(e.target.value);
+    };
+    const handleLink = (e) => {
+        if (e.keyCode === 13) {
+            navigate(`/search?query=${searchContext.searchValue}`);
+        }
     };
     useEffect(() => {
         const featchApi = async () => {
@@ -71,7 +80,10 @@ function Search() {
                 <input
                     ref={valueInput}
                     onChange={(e) => {
-                        searchContext.setSearchValue(e.target.value);
+                        handleInput(e);
+                    }}
+                    onKeyUp={(e) => {
+                        handleLink(e);
                     }}
                     className={cx('input-search')}
                     placeholder="Type to Search..."
@@ -103,32 +115,32 @@ function Search() {
                             </div>
                         );
                     })}
-                    <div className={cx('pagination')}>
-                        <Stack spacing={50}>
-                            <Pagination
-                                count={numberPage}
-                                variant="outlined"
-                                shape="rounded"
-                                size="large"
-                                color="primary"
-                                boundaryCount={2}
-                                onChange={handleChangePage}
-                                renderItem={(item) => (
-                                    <PaginationItem
-                                        component={Link}
-                                        to={`/search?query=${query}${item.page === 1 ? '' : `&&page=${item.page}`}`}
-                                        {...item}
-                                    />
-                                )}
-                            />
-                        </Stack>
-                    </div>
                 </div>
             ) : (
                 <div className={cx('error')}>
                     <h1>Ôi bạn ơi, cái bạn tìm không có đâu!</h1>
                 </div>
             )}
+            <div className={cx('pagination')}>
+                <Stack spacing={50}>
+                    <Pagination
+                        count={numberPage}
+                        variant="outlined"
+                        shape="rounded"
+                        size="large"
+                        color="primary"
+                        boundaryCount={2}
+                        onChange={handleChangePage}
+                        renderItem={(item) => (
+                            <PaginationItem
+                                component={Link}
+                                to={`/search?query=${query}${item.page === 1 ? '' : `&&page=${item.page}`}`}
+                                {...item}
+                            />
+                        )}
+                    />
+                </Stack>
+            </div>
         </div>
     );
 }

@@ -62,9 +62,9 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 100px;
+    justify-content: space-evenly;
 }
 .film {
-    margin-left: 20px;
     width: 200px;
     margin-bottom: 70px;
     display: inline-block;
@@ -136,5 +136,18 @@
             margin-left: 20px;
             font-size: 1.6rem;
         }
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .film {
+        width: 175px;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .film {
+        width: 170px;
+    }
+    .search {
+        width: 355px;
     }
 }

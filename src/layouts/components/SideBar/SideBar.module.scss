@@ -16,3 +16,8 @@
     border-radius: 9999px;
     margin-top: 20px;
 }
+@media screen and (max-width: 1420px) {
+    .wrapper {
+        display: none;
+    }
+}

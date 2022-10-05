@@ -6,3 +6,18 @@
     width: var(--default-layout-width);
     margin: auto;
 }
+@media only screen and (min-width: 1024px) and (max-width: 1160px) {
+    .inner {
+        width: 1024px;
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .inner {
+        width: 740px;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .inner {
+        width: 375px;
+    }
+}

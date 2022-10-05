@@ -20,11 +20,16 @@ function ExploreLayout({ children }) {
                 <Header />
                 <div className={cx('container')}>
                     <div className={cx('inner')}>
+                        <div className={cx('sidebar-top')}>
+                            <SideBarExplore handle={handleBtnRef} />
+                        </div>
                         <div ref={button1Ref} className={cx('content')}>
                             {children}
                         </div>
                     </div>
-                    <SideBarExplore handle={handleBtnRef} />
+                    <div className={cx('sidebar-left')}>
+                        <SideBarExplore handle={handleBtnRef} />
+                    </div>
                 </div>
             </div>
         </GenreProvider>

@@ -23,6 +23,7 @@
 .info-film {
     width: var(--default-layout-width);
     margin: auto;
+    padding-left: 10px;
 }
 .tittle-film {
     font-size: 7rem;
@@ -47,7 +48,7 @@
 .plot {
     max-width: calc(var(--default-layout-width) / 12 * 10);
     color: var(--white);
-    font-size: 14px;
+    font-size: 1.4rem;
     line-height: 1.8;
     margin-bottom: 15px;
     font-weight: 600;
@@ -55,4 +56,29 @@
 }
 .btn-watch {
     display: flex;
+}
+@media only screen and (min-width: 1024px) and (max-width: 1160px) {
+    .info-film {
+        width: 1024px;
+    }
+}
+
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .content-film {
+        top: 10%;
+    }
+    .plot {
+        max-width: 720px;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .tittle-film {
+        font-size: 1.4rem;
+    }
+    .cast-film {
+        display: none;
+    }
+    .plot {
+        display: none;
+    }
 }
