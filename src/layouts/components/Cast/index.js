@@ -56,7 +56,9 @@ function Cast({ cast }) {
 
                                     <SwiperSlide className={cx('cast')} key={result.id}>
                                         <img
-                                            src={`${api.img}${result.profile_path}`}
+                                            src={`${api.img}${
+                                                result.profile_path || result.profile_path || result.profile_path
+                                            }`}
                                             className={cx('img-cast')}
                                             alt="cast"
                                         />

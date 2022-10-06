@@ -8,7 +8,11 @@ const cx = classNames.bind(styles);
 function WatchFilm({ film, handleWatch }) {
     return (
         <div className={cx('film')}>
-            <img src={`${api.img}${film.backdrop_path}`} alt="film" className={cx('img-content')} />
+            <img
+                src={`${api.img}${film.backdrop_path || film.backdrop_path || film.backdrop_path}`}
+                alt="film"
+                className={cx('img-content')}
+            />
             <div className={cx('content-film')}>
                 <div className={cx('content-inner')}>
                     <img src={`${api.img}${film.poster_path}`} className={cx('img-film')} alt="film" />
