@@ -26,10 +26,10 @@ function Similar({ similar, type }) {
                 <h1 className={cx('tittle')}>Similar</h1>
                 <div className={cx('swiper-slider')}>
                     <div>
-                        <button class={'custom_next'}>
+                        <button className={'custom_next'}>
                             <GrNext className={cx('custom_next')} />
                         </button>
-                        <button class="custom_next">
+                        <button className="custom_next">
                             <GrPrevious className={cx('custom_prev')} />
                         </button>
                         <Swiper

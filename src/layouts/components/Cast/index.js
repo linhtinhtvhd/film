@@ -25,10 +25,10 @@ function Cast({ cast }) {
                 <h1 className={cx('tittle')}>Casts</h1>
                 <div className={cx('swiper-slider')}>
                     <div>
-                        <button class={'custom_next1'}>
+                        <button className={'custom_next1'}>
                             <GrNext className={cx('custom_next')} />
                         </button>
-                        <button class="custom_prev1">
+                        <button className="custom_prev1">
                             <GrPrevious className={cx('custom_prev')} />
                         </button>
                         <Swiper

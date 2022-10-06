@@ -105,7 +105,12 @@ function Watch() {
                     return prev;
                 });
 
-                setCast(resCast.cast.splice(0, 10));
+                setCast((prev) => {
+                    prev = resCast.cast.filter((e) => {
+                        return !!e.profile_path;
+                    });
+                    return prev;
+                });
                 setSimilar(reSimailar.results);
             } catch (error) {}
         };
