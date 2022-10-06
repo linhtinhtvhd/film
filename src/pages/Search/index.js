@@ -104,7 +104,9 @@ function Search() {
                                     className={cx('link')}
                                 >
                                     <img
-                                        src={`${api.img}${res.poster_path || res.profile_path}`}
+                                        src={`${api.img}${
+                                            res.poster_path || res.poster_path || res.profile_path || res.profile_path
+                                        }`}
                                         className={cx('img-film')}
                                         alt="film"
                                     />

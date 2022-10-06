@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -78,7 +78,9 @@ function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, 
                                     <SwiperSlide className={cx('film')} key={result.id}>
                                         <Link to={`/${a}/${result.id}`} className={cx('link')}>
                                             <img
-                                                src={`${api.img}${result.poster_path}`}
+                                                src={`${api.img}${
+                                                    result.poster_path || result.poster_path || result.poster_path
+                                                }`}
                                                 className={cx('img-film')}
                                                 alt="film"
                                             />

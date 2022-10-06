@@ -120,7 +120,7 @@ function Watch() {
     }, [id]);
 
     return (
-        <>
+        <div className={cx('watch')}>
             <div className={cx('header')} ref={top}>
                 <Header />
             </div>
@@ -202,7 +202,7 @@ function Watch() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

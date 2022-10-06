@@ -13,7 +13,6 @@
 .img-content {
     width: 100%;
     object-fit: cover;
-    min-height: 800px;
 }
 .content-film {
     font-family: var(--font-family-content);
@@ -25,6 +24,7 @@
     width: var(--default-layout-width);
     display: flex;
     margin: auto;
+    padding: 0 20px;
 }
 .img-film {
     width: 300px;
@@ -56,4 +56,60 @@
 }
 .btn-watch {
     display: flex;
+}
+@media only screen and (min-width: 1024px) and (max-width: 1160px) {
+    .content-inner {
+        width: 1024px;
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .film {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 150px;
+    }
+    .content-inner {
+        width: 740px;
+    }
+    .tittle-film {
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--white);
+    }
+    .img-film {
+        width: 250px;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .film {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 30%;
+    }
+    .content-film {
+        top: 30%;
+    }
+    .content-inner {
+        max-width: 739px;
+        min-width: 350px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .tittle-film {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--white);
+    }
+    .img-film {
+        width: 40%;
+    }
+    .img-content {
+        width: 100%;
+
+        object-fit: contain;
+    }
+    .plot {
+        display: none;
+    }
 }

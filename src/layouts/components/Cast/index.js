@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
@@ -9,6 +9,16 @@ import 'swiper/css/navigation';
 
 const cx = classNames.bind(styles);
 function Cast({ cast }) {
+    const [widthWindow, setWidthWindow] = useState(window.innerWidth);
+    const handleWidth = () => {
+        setWidthWindow(window.innerWidth);
+    };
+    useEffect(() => {
+        window.addEventListener('resize', handleWidth);
+        return () => {
+            window.removeEventListener('resize', handleWidth);
+        };
+    }, [widthWindow]);
     return (
         <div className={cx('cast-film')}>
             <div className={cx('wrapper')}>
@@ -24,8 +34,16 @@ function Cast({ cast }) {
                         <Swiper
                             className={cx('swper')}
                             spaceBetween={20}
-                            slidesPerView={8}
-                            slidesPerGroup={4}
+                            slidesPerView={
+                                widthWindow >= 1024 && widthWindow < 1160
+                                    ? 6
+                                    : widthWindow >= 740 && widthWindow < 1024
+                                    ? 4
+                                    : widthWindow < 740
+                                    ? 3
+                                    : 8
+                            }
+                            slidesPerGroup={3}
                             loop={true}
                             navigation={{
                                 nextEl: `.custom_next1`,

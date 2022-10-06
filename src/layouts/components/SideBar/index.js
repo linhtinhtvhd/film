@@ -21,7 +21,6 @@ function SideBar() {
             try {
                 const res = await Genre(type);
                 setGenre(res.splice(0, 8));
-                console.log(res);
             } catch (error) {}
         };
         featchApi();

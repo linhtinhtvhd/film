@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,16 @@ import 'swiper/css/navigation';
 
 const cx = classNames.bind(styles);
 function Similar({ similar, type }) {
+    const [widthWindow, setWidthWindow] = useState(window.innerWidth);
+    const handleWidth = () => {
+        setWidthWindow(window.innerWidth);
+    };
+    useEffect(() => {
+        window.addEventListener('resize', handleWidth);
+        return () => {
+            window.removeEventListener('resize', handleWidth);
+        };
+    }, [widthWindow]);
     return (
         <div className={cx('cast-film')}>
             <div className={cx('wrapper')}>
@@ -25,8 +35,16 @@ function Similar({ similar, type }) {
                         <Swiper
                             className={cx('swper')}
                             spaceBetween={20}
-                            slidesPerView={6}
-                            slidesPerGroup={4}
+                            slidesPerView={
+                                widthWindow >= 1024 && widthWindow < 1160
+                                    ? 5
+                                    : widthWindow >= 740 && widthWindow < 1024
+                                    ? 3
+                                    : widthWindow < 740
+                                    ? 2
+                                    : 8
+                            }
+                            slidesPerGroup={3}
                             loop={true}
                             navigation={{
                                 nextEl: `.custom_next`,

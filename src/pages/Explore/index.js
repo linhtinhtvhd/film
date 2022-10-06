@@ -47,8 +47,6 @@ function Explore() {
             if (window.scrollY - scroll >= 500) {
                 setScroll((prev) => prev + 500);
                 setPage((prev) => prev + 1);
-                console.log(scroll);
-                console.log(page);
             }
         };
 
@@ -74,7 +72,11 @@ function Explore() {
                     return (
                         <div className={cx('film')} key={res.id}>
                             <Link to={`/${type}/${res.id}`} className={cx('link')}>
-                                <img src={`${api.img}${res.poster_path}`} className={cx('img-film')} alt="film" />
+                                <img
+                                    src={`${api.img}${res.poster_path || res.poster_path || res.poster_path}`}
+                                    className={cx('img-film')}
+                                    alt="film"
+                                />
                                 <p className={cx('name-film')}>{res.original_title || res.original_name}</p>
                             </Link>
                         </div>
