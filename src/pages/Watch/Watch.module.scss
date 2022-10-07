@@ -129,18 +129,47 @@ svg {
         background-color: #da3535;
     }
 }
+.overview {
+    display: none;
+    padding: 0 40px;
+    h2 {
+        color: var(--white);
+    }
+    p {
+        color: #989aa1;
+        text-align: justify;
+    }
+}
 .active,
 .activeSeason {
     background-color: rgb(200, 224, 21);
 }
 @media only screen and (max-width: 739px) {
-    iframe {
-        width: 100%;
-    }
     .season {
         width: 100%;
     }
     .episode {
         width: 100%;
+    }
+    .overview {
+        display: block;
+    }
+}
+@media only screen and (min-width: 375px) and (max-width: 500px) {
+    iframe {
+        width: 370px;
+        height: 200px;
+    }
+}
+@media only screen and (min-width: 500px) and (max-width: 739px) {
+    iframe {
+        width: 450px;
+        height: 300px;
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1050px) {
+    iframe {
+        width: 650px;
+        height: 400px;
     }
 }

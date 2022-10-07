@@ -208,6 +208,10 @@ function Watch() {
                                     </div>
                                 </>
                             )}
+                            <div className={cx('overview')}>
+                                <h2>OverView</h2>
+                                <p>{film.overview}</p>
+                            </div>
                             <Cast cast={cast} />
                             <Similar similar={similar} type={type} />
                         </div>

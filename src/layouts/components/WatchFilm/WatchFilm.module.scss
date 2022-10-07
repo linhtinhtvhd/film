@@ -1,4 +1,5 @@
 .film {
+    min-height: 100vh;
     position: relative;
     &::before {
         content: '';
@@ -53,17 +54,23 @@
     margin-bottom: 15px;
     font-weight: 600;
     letter-spacing: 0.5px;
+    text-align: justify;
 }
 .btn-watch {
     display: flex;
 }
+
 @media only screen and (min-width: 1024px) and (max-width: 1160px) {
+    .film {
+        min-height: 0;
+    }
     .content-inner {
         width: 1024px;
     }
 }
 @media only screen and (min-width: 740px) and (max-width: 1023px) {
     .film {
+        min-height: 0;
         display: flex;
         align-items: flex-start;
         margin-bottom: 150px;
@@ -82,6 +89,7 @@
 }
 @media only screen and (max-width: 739px) {
     .film {
+        min-height: 0;
         display: flex;
         align-items: flex-start;
         margin-bottom: 30%;
