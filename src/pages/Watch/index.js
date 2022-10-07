@@ -119,10 +119,11 @@ function Watch() {
         setWatch(false);
         setSeason(seso || 1);
         setEpisode(esp || 1);
-        setActiveSeason(seso || 1);
-        setActive(esp || 1);
+        setActiveSeason(Number(seso) || 1);
+        setActive(Number(esp) || 1);
+        console.log(activeSeason);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [id, season]);
 
     return (
         <div className={cx('watch')}>
@@ -156,7 +157,10 @@ function Watch() {
                                     <div className={cx('season')}>
                                         {seasonNumber.map((result) => {
                                             return (
-                                                <Link to={`/${type}/${id}?season=${result}&episode=${episode}`}>
+                                                <Link
+                                                    to={`/${type}/${id}?season=${result}&episode=${episode}`}
+                                                    key={result}
+                                                >
                                                     <button
                                                         key={result}
                                                         id={result}
@@ -179,7 +183,10 @@ function Watch() {
                                     <div className={cx('episode')}>
                                         {episodeNumber.map((result) => {
                                             return (
-                                                <Link to={`/${type}/${id}?season=${season}&episode=${result}`}>
+                                                <Link
+                                                    to={`/${type}/${id}?season=${season}&episode=${result}`}
+                                                    key={result}
+                                                >
                                                     <button
                                                         key={result}
                                                         id={result}
