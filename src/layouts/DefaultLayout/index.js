@@ -19,7 +19,7 @@ function DefaultLayout() {
                             <div
                                 className={cx('loading')}
                                 style={{
-                                    width: '100%',
+                                    width: `${window.innerWidth}`,
                                     height: `${(window.innerWidth * 9) / 16}px`,
                                     backgroundColor: '#302f2f',
                                 }}
