@@ -1,12 +1,12 @@
-import { memo, useState, useEffect } from 'react';
+import { useState, useEffect, lazy, useRef, Suspense, memo } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import styles from './Cast.module.scss';
-import api from '~/assets/Api';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+const ImgProfile = lazy(() => import('~/components/Img/imgProfile.js'));
 const cx = classNames.bind(styles);
 function Cast({ cast }) {
     const [widthWindow, setWidthWindow] = useState(window.innerWidth);
@@ -55,13 +55,20 @@ function Cast({ cast }) {
                                     //
 
                                     <SwiperSlide className={cx('cast')} key={result.id}>
-                                        <img
-                                            src={`${api.img}${
-                                                result.profile_path || result.profile_path || result.profile_path
-                                            }`}
-                                            className={cx('img-cast')}
-                                            alt="cast"
-                                        />
+                                        <Suspense
+                                            fallback={
+                                                <div
+                                                    className={cx('loading')}
+                                                    style={{
+                                                        width: '100%',
+                                                        backgroundColor: '#302f2f',
+                                                        paddingTop: '140%',
+                                                    }}
+                                                ></div>
+                                            }
+                                        >
+                                            <ImgProfile result={result} />
+                                        </Suspense>
                                         <p className={cx('name-cast')}>{result.original_name}</p>
                                     </SwiperSlide>
                                 );

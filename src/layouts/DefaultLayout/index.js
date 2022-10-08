@@ -1,11 +1,12 @@
 import classNames from 'classnames/bind';
 import styles from './DefaultLayout.module.scss';
+import { useState, useEffect, lazy, Suspense } from 'react';
 
 import Header from './Header';
-import Content from '~/layouts/components/Content';
 import MainContent from '~/layouts/components/MainContent';
 
 const cx = classNames.bind(styles);
+const Content = lazy(() => import('~/layouts/components/Content'));
 
 function DefaultLayout() {
     return (
@@ -13,7 +14,21 @@ function DefaultLayout() {
             <Header />
             <div className={cx('container')}>
                 <div className={cx('inner')}>
-                    <Content />
+                    <Suspense
+                        fallback={
+                            <div
+                                className={cx('loading')}
+                                style={{
+                                    width: '100%',
+                                    height: `${(window.innerWidth * 9) / 16}px`,
+                                    backgroundColor: '#302f2f',
+                                }}
+                            ></div>
+                        }
+                    >
+                        {' '}
+                        <Content />
+                    </Suspense>
                     <MainContent />
                 </div>
             </div>

@@ -1,14 +1,14 @@
-import { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect, lazy, Suspense } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Link } from 'react-router-dom';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import styles from './Similar.module.scss';
-import api from '~/assets/Api';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
 const cx = classNames.bind(styles);
+const ImgSmall = lazy(() => import('~/components/Img/imgSmall.js'));
 function Similar({ similar, type }) {
     const [widthWindow, setWidthWindow] = useState(window.innerWidth);
     const handleWidth = () => {
@@ -57,16 +57,20 @@ function Similar({ similar, type }) {
 
                                     <SwiperSlide className={cx('film')} key={result.id}>
                                         <Link to={`/${type}/${result.id}`} className={cx('link')}>
-                                            <img
-                                                src={`${api.img}${
-                                                    result.poster_path || result.poster_path || result.poster_path
-                                                }`}
-                                                className={cx('img-film')}
-                                                alt="film"
-                                            />
-                                            <p className={cx('name-film')}>
-                                                {result.original_title || result.original_name}
-                                            </p>
+                                            <Suspense
+                                                fallback={
+                                                    <div
+                                                        className={cx('loading')}
+                                                        style={{
+                                                            width: '100%',
+                                                            backgroundColor: '#302f2f',
+                                                            paddingTop: '140%',
+                                                        }}
+                                                    ></div>
+                                                }
+                                            >
+                                                <ImgSmall result={result} />
+                                            </Suspense>
                                         </Link>
                                     </SwiperSlide>
                                 );

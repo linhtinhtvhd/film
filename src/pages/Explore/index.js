@@ -2,12 +2,11 @@ import classNames from 'classnames/bind';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import styles from './explore.module.scss';
 import { GenreContext } from '~/layouts/ExploreLayout/GenreContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, lazy, Suspense } from 'react';
 import Filter from '~/apiServices/FilterServiceMv';
-import api from '~/assets/Api';
 
 const cx = classNames.bind(styles);
-
+const ImgSmall = lazy(() => import('~/components/Img/imgSmall.js'));
 function Explore() {
     const location = useLocation();
     const search = location.search;
@@ -72,11 +71,20 @@ function Explore() {
                     return (
                         <div className={cx('film')} key={res.id}>
                             <Link to={`/${type}/${res.id}`} className={cx('link')}>
-                                <img
-                                    src={`${api.img}${res.poster_path || res.poster_path || res.poster_path}`}
-                                    className={cx('img-film')}
-                                    alt="film"
-                                />
+                                <Suspense
+                                    fallback={
+                                        <div
+                                            className={cx('loading')}
+                                            style={{
+                                                width: '100%',
+                                                backgroundColor: '#302f2f',
+                                                paddingTop: '140%',
+                                            }}
+                                        ></div>
+                                    }
+                                >
+                                    <ImgSmall result={res} />
+                                </Suspense>
                                 <p className={cx('name-film')}>{res.original_title || res.original_name}</p>
                             </Link>
                         </div>

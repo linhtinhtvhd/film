@@ -12,10 +12,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Cast from '~/layouts/components/Cast';
 import Similar from '~/layouts/components/Similar';
-import WatchFilm from '~/layouts/components/WatchFilm';
+import { lazy, Suspense } from 'react';
 
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
+const WatchFilm = lazy(() => import('~/layouts/components/WatchFilm'));
 function Watch() {
     const location = useLocation();
     const search = location.search;
@@ -134,7 +135,21 @@ function Watch() {
             <div className={cx('container')}>
                 <div className={cx('wrapper')}>
                     <div className={cx('inner')}>
-                        <WatchFilm film={film} handleWatch={handleWatch} />
+                        <Suspense
+                            fallback={
+                                <div
+                                    className={cx('loading')}
+                                    style={{
+                                        width: '100%',
+                                        height: `${(window.innerWidth * 9) / 16}px`,
+                                        backgroundColor: '#302f2f',
+                                    }}
+                                ></div>
+                            }
+                        >
+                            {' '}
+                            <WatchFilm film={film} handleWatch={handleWatch} />
+                        </Suspense>
 
                         <div ref={button1Ref} className={cx('main-content')}>
                             {watch && (

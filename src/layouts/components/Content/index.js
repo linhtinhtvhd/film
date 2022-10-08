@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import classNames from 'classnames/bind';
 
 import MvPopular from '~/apiServices/popularServiceMv';
-import api from '~/assets/Api';
+
 import styles from './Content.module.scss';
 import { Navigation, Pagination, Autoplay } from 'swiper';
 
@@ -15,26 +15,27 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import Button from '~/components/Button';
-import Genre from '~/apiServices/genreService';
 
 const cx = classNames.bind(styles);
-
+const ImgBig = lazy(() => import('~/components/Img/imgBig.js'));
 function Content() {
     const [moviePopular, setMoviePupular] = useState([]);
-    const [genreApi, setGenreApi] = useState([]);
-    const [genre, setGenre] = useState([]);
+    const [height, setHeight] = useState((window.innerWidth * 9) / 16);
+    const handleHeight = () => {
+        setHeight((window.innerWidth * 9) / 16);
+    };
     useEffect(() => {
         const featchApi = async () => {
             const result = await MvPopular();
             setMoviePupular(result.splice(0, 5));
         };
         featchApi();
-        const featchApiGenre = async () => {
-            const res = await Genre();
-            setGenreApi(res.genres);
+
+        window.addEventListener('resize', handleHeight);
+        return () => {
+            window.removeEventListener('resize', handleHeight);
         };
-        featchApiGenre();
-    }, []);
+    }, [height]);
     return (
         <div className={cx('wrapper')}>
             <Swiper
@@ -55,7 +56,15 @@ function Content() {
                 {moviePopular.map((result) => {
                     return (
                         <SwiperSlide className={cx('big-content')} key={result.id}>
-                            <img src={`${api.img}${result.backdrop_path}`} className={cx('img-content')} alt="film" />
+                            <Suspense
+                                fallback={
+                                    <div
+                                        style={{ width: '100%', height: `${height}px`, backgroundColor: '#302f2f' }}
+                                    ></div>
+                                }
+                            >
+                                <ImgBig result={result} />
+                            </Suspense>
                             <div className={cx('content-film')}>
                                 <div className={cx('info-film')}>
                                     <p className={cx('tittle-film')}>{result.original_title}</p>
