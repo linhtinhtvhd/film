@@ -9,7 +9,7 @@ import { FaSearch } from 'react-icons/fa';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 const cx = classNames.bind(styles);
 function Search() {
     const navigate = useNavigate();
@@ -103,12 +103,10 @@ function Search() {
                                     }`}
                                     className={cx('link')}
                                 >
-                                    <img
-                                        src={`${api.img}${
-                                            res.poster_path || res.poster_path || res.profile_path || res.profile_path
-                                        }`}
+                                    <LazyLoadImage
                                         className={cx('img-film')}
-                                        alt="film"
+                                        src={`${api.img}${res.poster_path}`}
+                                        alt={res.original_title}
                                     />
                                     <p className={cx('name-film')}>
                                         {res.original_title || res.original_name || res.name}

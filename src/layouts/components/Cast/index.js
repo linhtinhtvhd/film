@@ -1,12 +1,13 @@
-import { useState, useEffect, lazy, useRef, Suspense, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import styles from './Cast.module.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import api from '~/assets/Api';
 
-const ImgProfile = lazy(() => import('~/components/Img/imgProfile.js'));
 const cx = classNames.bind(styles);
 function Cast({ cast }) {
     const [widthWindow, setWidthWindow] = useState(window.innerWidth);
@@ -36,12 +37,12 @@ function Cast({ cast }) {
                             spaceBetween={20}
                             slidesPerView={
                                 widthWindow >= 1024 && widthWindow < 1160
-                                    ? 6
+                                    ? 5
                                     : widthWindow >= 740 && widthWindow < 1024
-                                    ? 4
+                                    ? 3
                                     : widthWindow < 740
                                     ? 3
-                                    : 8
+                                    : 7
                             }
                             slidesPerGroup={3}
                             loop={true}
@@ -55,20 +56,11 @@ function Cast({ cast }) {
                                     //
 
                                     <SwiperSlide className={cx('cast')} key={result.id}>
-                                        <Suspense
-                                            fallback={
-                                                <div
-                                                    className={cx('loading')}
-                                                    style={{
-                                                        width: '100%',
-                                                        backgroundColor: '#302f2f',
-                                                        paddingTop: '140%',
-                                                    }}
-                                                ></div>
-                                            }
-                                        >
-                                            <ImgProfile result={result} />
-                                        </Suspense>
+                                        <LazyLoadImage
+                                            className={cx('img-cast')}
+                                            src={`${api.img}${result.profile_path}`}
+                                            alt={'cast'}
+                                        />
                                         <p className={cx('name-cast')}>{result.original_name}</p>
                                     </SwiperSlide>
                                 );

@@ -1,5 +1,6 @@
 .wrapper {
     padding: 30px 20px;
+    margin: auto;
 }
 
 .swper {
@@ -83,4 +84,14 @@ svg {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+}
+@media screen and (min-width: 1024px) and (max-width: 1160px) {
+    .wrapper {
+        width: 1024px;
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .wrapper {
+        width: 740px;
+    }
 }

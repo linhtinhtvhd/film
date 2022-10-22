@@ -1,11 +1,13 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import classNames from 'classnames/bind';
-
+import { getUser, UpdateUser } from '~/apiServices/userService';
 import MvPopular from '~/apiServices/popularServiceMv';
-
+import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
 import styles from './Content.module.scss';
 import { Navigation, Pagination, Autoplay } from 'swiper';
+import api from '~/assets/Api';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 // Import Swiper React components
 
@@ -17,13 +19,41 @@ import 'swiper/css/pagination';
 import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
-const ImgBig = lazy(() => import('~/components/Img/imgBig.js'));
 function Content() {
+    const { user, newListfilm, setNewListfilm } = useContext(LoginContext);
     const [moviePopular, setMoviePupular] = useState([]);
     const [height, setHeight] = useState((window.innerWidth * 9) / 16);
     const handleHeight = () => {
         setHeight((window.innerWidth * 9) / 16);
     };
+    const handleUpdateListfilm = (id, img, tittle, rate, overview) => {
+        const watchList = newListfilm.filter((fi) => {
+            return id !== fi.id;
+        });
+        setNewListfilm(() => {
+            return [{ id: id, type: 'movie', img: img, tittle: tittle, rate: rate, overview: overview }, ...watchList];
+        });
+    };
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setNewListfilm(res.data[0].listfilm || []);
+            });
+        };
+
+        if (JSON.parse(localStorage.getItem('isLogin'))) {
+            FeatchApiUser();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user.username, localStorage.getItem('token')]);
+    useLayoutEffect(() => {
+        const featchUpdate = async () => {
+            await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
+        };
+        if (newListfilm.length > 0) {
+            featchUpdate();
+        }
+    }, [newListfilm]);
     useEffect(() => {
         const featchApi = async () => {
             const result = await MvPopular();
@@ -56,15 +86,12 @@ function Content() {
                 {moviePopular.map((result) => {
                     return (
                         <SwiperSlide className={cx('big-content')} key={result.id}>
-                            <Suspense
-                                fallback={
-                                    <div
-                                        style={{ width: '100%', height: `${height}px`, backgroundColor: '#302f2f' }}
-                                    ></div>
-                                }
-                            >
-                                <ImgBig result={result} />
-                            </Suspense>
+                            <LazyLoadImage
+                                src={`${api.img}${result.backdrop_path}`}
+                                width={window.innerWidth}
+                                height={(window.innerWidth * 9) / 16}
+                                alt={result.original_title}
+                            />
                             <div className={cx('content-film')}>
                                 <div className={cx('info-film')}>
                                     <p className={cx('tittle-film')}>{result.original_title}</p>
@@ -84,7 +111,20 @@ function Content() {
                                         <Button primary to={`/movie/${result.id}`}>
                                             Watch
                                         </Button>
-                                        <Button transparent>+ Add To Watchlist</Button>
+                                        <button
+                                            className={cx('btn-add')}
+                                            onMouseDown={() =>
+                                                handleUpdateListfilm(
+                                                    result.id,
+                                                    `${api.img}${result.backdrop_path}`,
+                                                    result.original_title,
+                                                    result.vote_average,
+                                                    result.overview,
+                                                )
+                                            }
+                                        >
+                                            + Add To Watchlist
+                                        </button>
                                     </div>
                                 </div>
                             </div>

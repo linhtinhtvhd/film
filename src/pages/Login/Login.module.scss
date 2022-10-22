@@ -1,0 +1,121 @@
+// header .header {
+//     background-color: #fff;
+//     height: 45px;
+// }
+// header a img {
+//     width: 134px;
+//     margin-top: 4px;
+// }
+.login-page {
+    position: relative;
+}
+.background {
+    video {
+        width: 100vw;
+        height: 135vh;
+        object-fit: cover;
+        position: fixed;
+        top: -130px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+}
+.login-header {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h3 {
+        color: #ffffff;
+        font-size: 3rem;
+    }
+    p {
+        color: #ffffff;
+        font-size: 2.5rem;
+        font-weight: 500;
+    }
+}
+.form {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form input {
+    font-family: 'Roboto', sans-serif;
+    outline: 0;
+    background: rgb(51, 53, 51);
+    width: 400px;
+    border: 0;
+
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 1.8rem;
+    border-radius: 8px;
+    color: var(--white);
+    &::placeholder {
+        color: var(--text-color);
+    }
+}
+.form button {
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background-color: #328f8a;
+    background: rgb(37, 31, 224);
+    width: 200px;
+    border-radius: 99999px;
+    border: 0;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 1.8rem;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(37, 31, 224, 0.8);
+    }
+}
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form .message a {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 300px;
+    margin: 0 auto;
+}
+.error {
+    font-size: 1.6rem;
+    color: var(--primary);
+    width: 400px;
+    font-weight: 500;
+    display: none;
+}
+.active-error {
+    display: block;
+}
+.input {
+    margin-bottom: 20px;
+}

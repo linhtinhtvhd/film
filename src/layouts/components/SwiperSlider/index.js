@@ -1,9 +1,11 @@
-import { useState, useEffect, lazy, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import { GrNext, GrPrevious } from 'react-icons/gr';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import api from '~/assets/Api';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -14,7 +16,6 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
-const ImgSmall = lazy(() => import('~/components/Img/imgSmall.js'));
 function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, slidesPerGroup = 4 }) {
     let ref = useRef('');
     const [answer, setAnswer] = useState([]);
@@ -30,7 +31,7 @@ function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, 
             setAnswer(result.splice(0, 16));
         };
         featchApi();
-        console.log(ref);
+
         window.addEventListener('resize', handleWidth);
 
         return () => {
@@ -80,20 +81,33 @@ function SwiperSlider({ custom_btn, tittle, service, href, slidesPerView = 4.5, 
                                     //
                                     <SwiperSlide className={cx('film')} key={result.id} ref={ref}>
                                         <Link to={`/${a}/${result.id}`} className={cx('link')}>
-                                            <Suspense
-                                                fallback={
-                                                    <div
-                                                        className={cx('loading')}
-                                                        style={{
-                                                            width: '100%',
-                                                            backgroundColor: '#302f2f',
-                                                            paddingTop: '140%',
-                                                        }}
-                                                    ></div>
+                                            <LazyLoadImage
+                                                src={`${api.img}${result.poster_path}`}
+                                                width={
+                                                    widthWindow >= 1160
+                                                        ? 228
+                                                        : widthWindow >= 1024 && widthWindow < 1160
+                                                        ? 230
+                                                        : widthWindow >= 740 && widthWindow < 1024
+                                                        ? 220
+                                                        : widthWindow < 740
+                                                        ? 158
+                                                        : 120
                                                 }
-                                            >
-                                                <ImgSmall result={result} />
-                                            </Suspense>
+                                                height={
+                                                    widthWindow >= 1160
+                                                        ? (228 * 3) / 2
+                                                        : widthWindow >= 1024 && widthWindow < 1160
+                                                        ? (230 * 3) / 2
+                                                        : widthWindow >= 740 && widthWindow < 1024
+                                                        ? (220 * 3) / 2
+                                                        : widthWindow < 740
+                                                        ? (158 * 3) / 2
+                                                        : 120
+                                                }
+                                                alt={result.original_title}
+                                            />
+                                            {/* <img className={cx('img-film')} src={`${api.img}${result.poster_path}`} /> */}
                                             <p className={cx('name-film')}>
                                                 {result.original_title || result.original_name}
                                             </p>

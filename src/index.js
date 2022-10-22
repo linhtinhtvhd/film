@@ -4,14 +4,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/components/GlobalStyles';
 import SearchProvider from '~/layouts/SearchLayout/SearchContext';
+import LoginProvider from '~/layouts/LoginLayout/LoginContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <GlobalStyles>
-            <SearchProvider>
-                <App />
-            </SearchProvider>
+            <LoginProvider>
+                <SearchProvider>
+                    <App />
+                </SearchProvider>
+            </LoginProvider>
         </GlobalStyles>
     </React.StrictMode>,
 );

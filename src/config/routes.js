@@ -1,6 +1,6 @@
 const routes = {
     home: '/',
-    profile: '/profile/@:nickname',
+    profile: '/profile',
     search: '/search',
     mv: '/movie',
     tv: '/tv',
@@ -8,5 +8,7 @@ const routes = {
     tvshow: '/tv/:id',
     contact: '/contact',
     explore: '/explore/:type',
+    login: '/login',
+    signup: '/signup',
 };
 export default routes;

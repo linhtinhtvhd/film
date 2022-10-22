@@ -1,4 +1,4 @@
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
@@ -7,19 +7,29 @@ import * as request from '~/utils/request';
 import Header from '~/layouts/DefaultLayout/Header';
 import styles from './Watch.module.scss';
 import api from '~/assets/Api';
-
+import { getUser } from '~/apiServices/userService';
+import { getComment, updateComment } from '~/apiServices/commentService';
+import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
+import image from '~/img';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import Cast from '~/layouts/components/Cast';
 import Similar from '~/layouts/components/Similar';
-import { lazy, Suspense } from 'react';
-
+import { useContext } from 'react';
+import { CgPen } from 'react-icons/cg';
+import WatchFilm from '~/layouts/components/WatchFilm';
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
-const WatchFilm = lazy(() => import('~/layouts/components/WatchFilm'));
+
 function Watch() {
     const location = useLocation();
     const search = location.search;
+    const navigate = useNavigate();
+    const [comment, setComment] = useState([]);
+    const { user } = useContext(LoginContext);
+    const [infoUser, setInfoUser] = useState();
+    const [newComment, setNewComment] = useState();
+    const commentRef = useRef();
 
     const params = new URLSearchParams(search);
     let seso = params.get('season');
@@ -54,6 +64,17 @@ function Watch() {
             top: button1Ref.current.offsetTop,
         });
     }, []);
+    const handleComment = async (e) => {
+        e.preventDefault();
+        if (JSON.parse(localStorage.getItem('isLogin'))) {
+            setComment((prev) => {
+                return [...prev, { fullname: infoUser.fullname, comment: newComment }];
+            });
+            commentRef.current.value = '';
+        } else {
+            navigate('/login');
+        }
+    };
 
     useEffect(() => {
         window.scrollTo({
@@ -122,9 +143,36 @@ function Watch() {
         setEpisode(esp || 1);
         setActiveSeason(Number(seso) || 1);
         setActive(Number(esp) || 1);
-        console.log(activeSeason);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, season]);
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setInfoUser(res.data[0]);
+            });
+        };
+        if (JSON.parse(localStorage.getItem('isLogin'))) {
+            FeatchApiUser();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        getComment(id).then((res) => {
+            if (res.data.length > 0) {
+                setComment(res.data[0].body);
+            }
+        });
+    }, [id]);
+    useEffect(() => {
+        const featchUpdate = async () => {
+            await updateComment({ comment, id });
+        };
+        if (comment.length > 0) {
+            featchUpdate();
+        }
+    }, [comment, id]);
 
     return (
         <div className={cx('watch')}>
@@ -135,21 +183,7 @@ function Watch() {
             <div className={cx('container')}>
                 <div className={cx('wrapper')}>
                     <div className={cx('inner')}>
-                        <Suspense
-                            fallback={
-                                <div
-                                    className={cx('loading')}
-                                    style={{
-                                        width: '100%',
-                                        height: `${(window.innerWidth * 9) / 16}px`,
-                                        backgroundColor: '#302f2f',
-                                    }}
-                                ></div>
-                            }
-                        >
-                            {' '}
-                            <WatchFilm film={film} handleWatch={handleWatch} />
-                        </Suspense>
+                        <WatchFilm film={film} id={id} type={type} handleWatch={handleWatch} />
 
                         <div ref={button1Ref} className={cx('main-content')}>
                             {watch && (
@@ -229,6 +263,49 @@ function Watch() {
                             </div>
                             <Cast cast={cast} />
                             <Similar similar={similar} type={type} />
+                        </div>
+                        <div className={cx('comment-user')}>
+                            <p className={cx('tittle-cmt')}>Comment</p>
+                            <form
+                                className={cx('form-cmt')}
+                                onSubmit={(e) => {
+                                    handleComment(e);
+                                }}
+                            >
+                                <div className={cx('input')}>
+                                    <img className={cx('img-avatar')} src={image.avatarDefault} alt={'avatar'} />
+                                    <input
+                                        ref={commentRef}
+                                        className={cx('input-cmt')}
+                                        placeholder=""
+                                        type={'text'}
+                                        onChange={(e) => {
+                                            setNewComment(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <button className={cx('btn-cmt')}>
+                                    {' '}
+                                    <CgPen className={cx('icon-btn')} />
+                                </button>
+                            </form>
+                            <div className={cx('info-cmt')}>
+                                {comment.map((res, index) => {
+                                    return (
+                                        <div className={cx('user-cmt')} key={index}>
+                                            <img
+                                                className={cx('img-avatar')}
+                                                src={image.avatarDefault}
+                                                alt={'avatar'}
+                                            />
+                                            <div className={cx('container-cmt')}>
+                                                <p className={cx('fullname-cmt')}>{res.fullname}</p>
+                                                <p className={cx('content-cmt')}>{res.comment}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>

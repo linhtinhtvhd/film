@@ -6,6 +6,7 @@ const MvUpComing = async () => {
             params: {
                 api_key: `${api.key}`,
                 language: 'en-US',
+                page: 1,
             },
         });
         return res.results;

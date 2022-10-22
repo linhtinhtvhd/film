@@ -16,32 +16,32 @@ function Movie() {
                     service={MvPopular}
                     tittle={'Movie Popular'}
                     href={'movie'}
-                    slidesPerView={5}
-                    slidesPerGroup={5}
+                    slidesPerView={4.5}
+                    slidesPerGroup={4}
                 />
                 <SwiperSlider
                     custom_btn={['custom_next3', 'custom_prev4']}
                     service={MvUpComing}
                     tittle={'UpComing'}
                     href={'movie'}
-                    slidesPerView={5}
-                    slidesPerGroup={5}
+                    slidesPerView={4.5}
+                    slidesPerGroup={4}
                 />
                 <SwiperSlider
                     custom_btn={['custom_next5', 'custom_prev6']}
                     service={MvTopRated}
                     tittle={'Top Rated'}
                     href={'movie'}
-                    slidesPerView={5}
-                    slidesPerGroup={5}
+                    slidesPerView={4.5}
+                    slidesPerGroup={4}
                 />
                 <SwiperSlider
                     custom_btn={['custom_next7', 'custom_prev8']}
                     service={MvNowPlay}
                     tittle={'Now Playing'}
                     href={'movie'}
-                    slidesPerView={5}
-                    slidesPerGroup={5}
+                    slidesPerView={4.5}
+                    slidesPerGroup={4}
                 />
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { memo, useState, useEffect, lazy, Suspense } from 'react';
+import { memo, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Link } from 'react-router-dom';
@@ -6,14 +6,16 @@ import { GrNext, GrPrevious } from 'react-icons/gr';
 import styles from './Similar.module.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import api from '~/assets/Api';
 
 const cx = classNames.bind(styles);
-const ImgSmall = lazy(() => import('~/components/Img/imgSmall.js'));
 function Similar({ similar, type }) {
     const [widthWindow, setWidthWindow] = useState(window.innerWidth);
     const handleWidth = () => {
         setWidthWindow(window.innerWidth);
     };
+
     useEffect(() => {
         window.addEventListener('resize', handleWidth);
         return () => {
@@ -35,15 +37,15 @@ function Similar({ similar, type }) {
                         <Swiper
                             className={cx('swper')}
                             spaceBetween={20}
-                            slidesPerView={
+                            slidesPerView={`${
                                 widthWindow >= 1024 && widthWindow < 1160
                                     ? 5
                                     : widthWindow >= 740 && widthWindow < 1024
-                                    ? 3
+                                    ? 4
                                     : widthWindow < 740
-                                    ? 2
-                                    : 8
-                            }
+                                    ? 3
+                                    : 6
+                            }`}
                             slidesPerGroup={3}
                             loop={true}
                             navigation={{
@@ -57,20 +59,12 @@ function Similar({ similar, type }) {
 
                                     <SwiperSlide className={cx('film')} key={result.id}>
                                         <Link to={`/${type}/${result.id}`} className={cx('link')}>
-                                            <Suspense
-                                                fallback={
-                                                    <div
-                                                        className={cx('loading')}
-                                                        style={{
-                                                            width: '100%',
-                                                            backgroundColor: '#302f2f',
-                                                            paddingTop: '140%',
-                                                        }}
-                                                    ></div>
-                                                }
-                                            >
-                                                <ImgSmall result={result} />
-                                            </Suspense>
+                                            <LazyLoadImage
+                                                src={`${api.img}${result.poster_path}`}
+                                                className={cx('img-film')}
+                                                alt={result.original_title}
+                                            />
+                                            <p className={cx('name-film')}>{result.original_title}</p>
                                         </Link>
                                     </SwiperSlide>
                                 );

@@ -3,19 +3,62 @@ import Button from '~/components/Button';
 import classNames from 'classnames/bind';
 import styles from './WatchFilm.module.scss';
 import api from '~/assets/Api';
+import { getUser, UpdateUser } from '~/apiServices/userService';
+import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
+import { useEffect, useContext } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const cx = classNames.bind(styles);
-function WatchFilm({ film, handleWatch }) {
+function WatchFilm({ film, handleWatch, id, type }) {
+    const { user, newListfilm, setNewListfilm } = useContext(LoginContext);
+    const handleUpdateListfilm = (id, type, img, tittle, rate, overview) => {
+        const watchList = newListfilm.filter((fi) => {
+            return id !== fi.id;
+        });
+
+        setNewListfilm(() => {
+            return [{ id: id, type: type, img: img, tittle: tittle, rate: rate, overview: overview }, ...watchList];
+        });
+    };
+
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setNewListfilm(res.data[0].listfilm || []);
+            });
+        };
+        if (JSON.parse(localStorage.getItem('isLogin'))) {
+            FeatchApiUser();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        const featchUpdate = async () => {
+            await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
+        };
+        if (newListfilm.length > 0) {
+            featchUpdate();
+        }
+    }, [newListfilm]);
+
     return (
         <div className={cx('film')}>
-            <img
-                src={`${api.img}${film.backdrop_path || film.backdrop_path || film.backdrop_path}`}
-                alt="film"
-                className={cx('img-content')}
+            <LazyLoadImage
+                src={`${api.img}${film.backdrop_path}`}
+                width={window.innerWidth}
+                height={(window.innerWidth * 9) / 16}
+                alt={film.original_title}
             />
             <div className={cx('content-film')}>
                 <div className={cx('content-inner')}>
-                    <img src={`${api.img}${film.poster_path}`} className={cx('img-film')} alt="film" />
+                    <LazyLoadImage
+                        className={cx('img-film')}
+                        src={`${api.img}${film.poster_path}`}
+                        width={300}
+                        height={(300 * 3) / 2}
+                        alt={film.original_title}
+                    />
                     <div className={cx('info-film')}>
                         <p className={cx('tittle-film')}>{film.original_title || film.name}</p>
 
@@ -30,7 +73,21 @@ function WatchFilm({ film, handleWatch }) {
                             <Button primary onClick={onclick} clickWatch={handleWatch}>
                                 Watch
                             </Button>
-                            <Button transparent>+ Add To Watchlist</Button>
+                            <button
+                                className={cx('btn-add')}
+                                onMouseUp={() =>
+                                    handleUpdateListfilm(
+                                        id,
+                                        type,
+                                        `${api.img}${film.backdrop_path}`,
+                                        film.original_title || film.name,
+                                        film.vote_average,
+                                        film.overview,
+                                    )
+                                }
+                            >
+                                + Add To Watchlist
+                            </button>
                         </div>
                     </div>
                 </div>

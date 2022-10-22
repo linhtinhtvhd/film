@@ -5,12 +5,20 @@ import config from '~/config';
 import Search from '~/layouts/components/Search';
 import Button from '~/components/Button';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import image from '~/img';
 
 const cx = classNames.bind(styles);
 
 function Header() {
     const [active, setActive] = useState(false);
+    const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('isLogin')));
+    useEffect(() => {
+        setIsLogin(JSON.parse(localStorage.getItem('isLogin')));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [localStorage.getItem('isLogin')]);
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -47,15 +55,22 @@ function Header() {
                                 </Link>
                             </li>
                             <li className={cx('item-menu')}>
-                                <Link to={config.routes.contact} className={cx('menu-link')}>
+                                <Link to={config.routes.profile} className={cx('menu-link')}>
                                     Contact Us
                                 </Link>
                             </li>
                         </ul>
                     </div>
                     <Search />
-                    <div className={cx('btn-login')}>
-                        <Button primary>Login</Button>
+                    <div className={cx('btn-login', `${isLogin && 'islogin'}`)}>
+                        <Button to={config.routes.login} primary>
+                            Login
+                        </Button>
+                    </div>
+                    <div className={cx('logout', `${!isLogin && 'islogin'}`)}>
+                        <Link to={config.routes.profile}>
+                            <img className={cx('img-avatar')} src={image.avatarDefault} alt={'avatar'} />
+                        </Link>
                     </div>
                     <AiOutlineMenu
                         className={cx('btn-menu')}

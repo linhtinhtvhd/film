@@ -58,6 +58,19 @@
         }
     }
 }
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.img-avatar {
+    border-radius: 50%;
+    width: 30px;
+}
+.islogin {
+    display: none;
+}
 @keyframes ani {
     from {
         opacity: 0;

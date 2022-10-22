@@ -30,10 +30,8 @@ function SideBar() {
         <div className={cx('wrapper')}>
             {genre.map((res) => {
                 return (
-                    <Link to={`/explore/${type}`}>
-                        <button className={cx('btn-genre')} key={res.id}>
-                            {res.name}
-                        </button>
+                    <Link to={`/explore/${type}`} key={res.id}>
+                        <button className={cx('btn-genre')}>{res.name}</button>
                     </Link>
                 );
             })}
