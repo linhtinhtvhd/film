@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './ExploreLayout.module.scss';
-import Header from '~/layouts/DefaultLayout/Header';
-import SideBarExplore from '~/layouts/components/SideBarExplore';
+import Header from '../../layouts/DefaultLayout/Header';
+import SideBarExplore from '../../layouts/components/SideBarExplore';
 import GenreProvider from './GenreContext';
 import { useRef } from 'react';
 const cx = classNames.bind(styles);

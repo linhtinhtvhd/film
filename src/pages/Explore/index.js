@@ -1,11 +1,11 @@
 import classNames from 'classnames/bind';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import styles from './explore.module.scss';
-import { GenreContext } from '~/layouts/ExploreLayout/GenreContext';
+import { GenreContext } from '../../layouts/ExploreLayout/GenreContext';
 import { useContext, useEffect, useState } from 'react';
-import Filter from '~/apiServices/FilterServiceMv';
+import Filter from '../../apiServices/FilterServiceMv';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import api from '~/assets/Api';
+import api from '../../assets/Api';
 const cx = classNames.bind(styles);
 
 function Explore() {

@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import styles from './SignUp.module.scss';
 import { Link } from 'react-router-dom';
-import { SignUp } from '~/apiServices/userService';
+import { SignUp } from '../../apiServices/userService';
 
 const cx = classNames.bind(styles);
 

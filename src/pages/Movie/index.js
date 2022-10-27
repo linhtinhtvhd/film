@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
-import SwiperSlider from '~/layouts/components/SwiperSlider';
+import SwiperSlider from '../../layouts/components/SwiperSlider';
 import styles from './Movie.module.scss';
-import MvNowPlay from '~/apiServices/nowPlayServiceMv';
-import MvPopular from '~/apiServices/popularServiceMv';
-import MvTopRated from '~/apiServices/topRatedServiceMv';
-import MvUpComing from '~/apiServices/upComingServiceMv';
+import MvNowPlay from '../../apiServices/nowPlayServiceMv';
+import MvPopular from '../../apiServices/popularServiceMv';
+import MvTopRated from '../../apiServices/topRatedServiceMv';
+import MvUpComing from '../../apiServices/upComingServiceMv';
 const cx = classNames.bind(styles);
 
 function Movie() {

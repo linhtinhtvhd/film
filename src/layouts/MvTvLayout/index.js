@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './MvTvLayout.module.scss';
-import Header from '~/layouts/DefaultLayout/Header';
-import SideBar from '~/layouts/components/SideBar';
+import Header from '../../layouts/DefaultLayout/Header';
+import SideBar from '../../layouts/components/SideBar';
 
 const cx = classNames.bind(styles);
 

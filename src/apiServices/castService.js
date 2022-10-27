@@ -1,4 +1,4 @@
-import * as request from '~/utils/request';
+import * as request from '../utils/request';
 import api from '~/assets/Api';
 const Cast = async (type = 'movie', time = 'day', id) => {
     try {

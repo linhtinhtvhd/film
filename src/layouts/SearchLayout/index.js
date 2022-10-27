@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
 import { useRef } from 'react';
 import styles from './SearchLayout.module.scss';
-import Header from '~/layouts/DefaultLayout/Header';
+import Header from '../../layouts/DefaultLayout/Header';
 
-import SideBarSearch from '~/layouts/components/SideBarSearch';
+import SideBarSearch from '../../layouts/components/SideBarSearch';
 
 const cx = classNames.bind(styles);
 

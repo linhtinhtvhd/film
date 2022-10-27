@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
-import SwiperSlider from '~/layouts/components/SwiperSlider';
+import SwiperSlider from '../../layouts/components/SwiperSlider';
 import styles from './Tvshow.module.scss';
-import TvAringToDay from '~/apiServices/airingToDayServiceTv';
-import TvPopular from '~/apiServices/popularServiceTv';
-import TvTopRated from '~/apiServices/topRatedServiceTv';
-import TvOnTheAir from '~/apiServices/onTheAirServiceTv';
+import TvAringToDay from '../../apiServices/airingToDayServiceTv';
+import TvPopular from '../../apiServices/popularServiceTv';
+import TvTopRated from '../../apiServices/topRatedServiceTv';
+import TvOnTheAir from '../../apiServices/onTheAirServiceTv';
 const cx = classNames.bind(styles);
 
 function Movie() {

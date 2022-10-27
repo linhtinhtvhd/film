@@ -1,5 +1,5 @@
-import * as request from '~/utils/request';
-import api from '~/assets/Api';
+import * as request from '../utils/request';
+import api from '../assets/Api';
 const Genre = async (type) => {
     try {
         const res = await request.get(`genre/${type}/list`, {

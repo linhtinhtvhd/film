@@ -1,5 +1,5 @@
-import * as request from '~/utils/request';
-import api from '~/assets/Api';
+import * as request from '../utils/request';
+import api from '../assets/Api';
 const Filter = async ({ type, genres, page = 1, valueMin = 0, valueMax = 200 }) => {
     try {
         const res = await request.get(`discover/${type}`, {
