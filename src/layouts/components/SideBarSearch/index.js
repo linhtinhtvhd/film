@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useContext } from 'react';
 import styles from './SideBarSearch.module.scss';
-import { SearchContext } from '~/layouts/SearchLayout/SearchContext';
+import { SearchContext } from '../../../layouts/SearchLayout/SearchContext';
 const cx = classNames.bind(styles);
 
 function SideBarSearch({ handle }) {

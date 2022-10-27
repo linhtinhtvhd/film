@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState, useContext } from 'react';
-import Genre from '~/apiServices/genreService';
+import Genre from '../../../apiServices/genreService';
 import styles from './SideBarExplore.module.scss';
-import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
-import { GenreContext } from '~/layouts/ExploreLayout/GenreContext';
+import { useLocation, useParams } from 'react-router-dom';
+import { GenreContext } from '../../../layouts/ExploreLayout/GenreContext';
 import Box from '@mui/material/Box';
 
 import Slider from '@mui/material/Slider';
@@ -11,7 +11,6 @@ import Slider from '@mui/material/Slider';
 const cx = classNames.bind(styles);
 
 function SideBarExplore({ handle }) {
-    const navigate = useNavigate();
     const location = useLocation();
     const genreContext = useContext(GenreContext);
     let { type } = useParams();

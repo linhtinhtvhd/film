@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import image from '~/img';
+import image from '../../../img';
 import styles from './ContentGenre.module.scss';
 
 const cx = classNames.bind(styles);

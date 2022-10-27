@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import api from '~/assets/Api';
+import api from '../../../assets/Api';
 
 // Import Swiper styles
 import 'swiper/css';

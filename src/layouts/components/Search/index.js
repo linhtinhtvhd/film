@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { FaSearch } from 'react-icons/fa';
 import styles from './Search.module.scss';
-import { SearchContext } from '~/layouts/SearchLayout/SearchContext';
+import { SearchContext } from '../../../layouts/SearchLayout/SearchContext';
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

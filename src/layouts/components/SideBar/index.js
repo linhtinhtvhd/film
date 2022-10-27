@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import Genre from '~/apiServices/genreService';
+import Genre from '../../../apiServices/genreService';
 import styles from './SideBar.module.scss';
 import { useLocation, Link } from 'react-router-dom';
 const cx = classNames.bind(styles);

@@ -7,7 +7,7 @@ import styles from './Similar.module.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import api from '~/assets/Api';
+import api from '../../../assets/Api';
 
 const cx = classNames.bind(styles);
 function Similar({ similar, type }) {

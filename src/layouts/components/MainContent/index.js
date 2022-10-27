@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
-import ContentGenre from '~/layouts/components/ContentGenre';
-import SwiperSlider from '~/layouts/components/SwiperSlider';
+import ContentGenre from '../../../layouts/components/ContentGenre';
+import SwiperSlider from '../../../layouts/components/SwiperSlider';
 import styles from './MainContent.module.scss';
-import Trending from '~/apiServices/trendingService';
-import MvPopular from '~/apiServices/popularServiceMv';
-import TvPopular from '~/apiServices/popularServiceTv';
+import Trending from '../../../apiServices/trendingService';
+import MvPopular from '../../../apiServices/popularServiceMv';
+import TvPopular from '../../../apiServices/popularServiceTv';
 
 const cx = classNames.bind(styles);
 
