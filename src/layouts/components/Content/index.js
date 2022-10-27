@@ -1,12 +1,12 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import classNames from 'classnames/bind';
-import { getUser, UpdateUser } from '~/apiServices/userService';
-import MvPopular from '~/apiServices/popularServiceMv';
-import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
+import { getUser, UpdateUser, getUserId } from '../../../apiServices/userService';
+import MvPopular from '../../../apiServices/popularServiceMv';
+import { LoginContext } from '../../../layouts/LoginLayout/LoginContext';
 import styles from './Content.module.scss';
 import { Navigation, Pagination, Autoplay } from 'swiper';
-import api from '~/assets/Api';
+import api from '../../../assets/Api';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 // Import Swiper React components
@@ -16,11 +16,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import Button from '~/components/Button';
+import Button from '../../../components/Button';
 
 const cx = classNames.bind(styles);
 function Content() {
-    const { user, newListfilm, setNewListfilm } = useContext(LoginContext);
+    const { user, newListfilm, setNewListfilm, infoUser } = useContext(LoginContext);
     const [moviePopular, setMoviePupular] = useState([]);
     const [height, setHeight] = useState((window.innerWidth * 9) / 16);
     const handleHeight = () => {
@@ -36,12 +36,24 @@ function Content() {
     };
     useEffect(() => {
         const FeatchApiUser = async () => {
+            getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setNewListfilm(res.data[0].listfilm || []);
+            });
+        };
+
+        if (infoUser) {
+            FeatchApiUser();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [infoUser, localStorage.getItem('token')]);
+    useEffect(() => {
+        const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
 
-        if (JSON.parse(localStorage.getItem('isLogin'))) {
+        if (user.username) {
             FeatchApiUser();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,10 +62,12 @@ function Content() {
         const featchUpdate = async () => {
             await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
         };
+
         if (newListfilm.length > 0) {
             featchUpdate();
         }
-    }, [newListfilm]);
+    }, [newListfilm, user.username]);
+
     useEffect(() => {
         const featchApi = async () => {
             const result = await MvPopular();

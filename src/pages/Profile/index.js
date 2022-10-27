@@ -2,9 +2,9 @@ import classNames from 'classnames/bind';
 import { useState, useContext, useEffect, useRef } from 'react';
 import styles from './Profile.module.scss';
 import { CgPen, CgShapeTriangle } from 'react-icons/cg';
-import { getUser, UpdateUser } from '~/apiServices/userService';
-import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
-import image from '~/img';
+import { getUser, UpdateUser, DeleteUser, getUserId } from '../../apiServices/userService';
+import { LoginContext } from '../../layouts/LoginLayout/LoginContext';
+import image from '../../img';
 import { Link, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
@@ -13,19 +13,24 @@ function Profile() {
     const Navigate = useNavigate();
     const passwordRef = useRef();
     const fullnameRef = useRef();
-    const { user } = useContext(LoginContext);
-    const [infoUser, setInfoUser] = useState();
+    const { user, setChangeAvatar, changeAvatar, infoUser, setInfoUser, userId } = useContext(LoginContext);
+
     const [newPassword, setNewPassword] = useState('');
     const [newFullname, setNewFullname] = useState('');
+
     const [active, setActive] = useState(false);
     const handleChangePassword = async (e) => {
         e.preventDefault();
+
         await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
+
         passwordRef.current.value = '';
     };
     const handleChangeFullname = async (e) => {
         e.preventDefault();
+
         await UpdateUser({ newFullname }, JSON.parse(localStorage.getItem('token')));
+
         setActive(false);
         fullnameRef.current.value = '';
         window.location.reload();
@@ -38,13 +43,52 @@ function Profile() {
         localStorage.removeItem('token');
         Navigate('/');
     };
+    const handleDeleteAccount = async () => {
+        await DeleteUser(JSON.parse(localStorage.getItem('token')));
+        localStorage.setItem('isLogin', false);
+        localStorage.removeItem('token');
+        Navigate('/');
+    };
+    const handleChangeAvatar = async (e) => {
+        const avatar = e.target.files[0];
+        const newAvatar = await convertBase64(avatar);
+        setChangeAvatar(newAvatar);
+
+        await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
+    };
+    const convertBase64 = (avatar) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(avatar);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 setInfoUser(res.data[0]);
             });
         };
-        FeatchApiUser();
+        if (user.username) {
+            FeatchApiUser();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setInfoUser(res.data[0]);
+            });
+        };
+        if (userId) {
+            FeatchApiUser();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
@@ -86,30 +130,53 @@ function Profile() {
                                 </p>
                             </div>
                             <div className={cx('username', 'mt')}>
-                                <h2>Username:</h2>
-                                <p>{infoUser.username}</p>
+                                {infoUser.username ? (
+                                    <>
+                                        <h2>Username:</h2>
+                                        <p>{infoUser.username}</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <h2>ID:</h2>
+                                        <p>{infoUser.id}</p>
+                                    </>
+                                )}
                             </div>
-                            <div className={cx('change-password', 'mt')}>
-                                <h2>Change password</h2>
-                                <form className={cx('form-changepass')} onSubmit={handleChangePassword}>
-                                    <input
-                                        ref={passwordRef}
-                                        onChange={(e) => {
-                                            setNewPassword(e.target.value);
-                                        }}
-                                        className={cx('input')}
-                                        type={'password'}
-                                        placeholder="New password"
-                                    />
-                                    <button className={cx('btn-update')}>Update</button>
-                                </form>
-                            </div>
+                            {infoUser.username ? (
+                                <div className={cx('change-password', 'mt')}>
+                                    <h2>Change password</h2>
+                                    <form className={cx('form-changepass')} onSubmit={handleChangePassword}>
+                                        <input
+                                            ref={passwordRef}
+                                            onChange={(e) => {
+                                                setNewPassword(e.target.value);
+                                            }}
+                                            className={cx('input')}
+                                            type={'password'}
+                                            placeholder="New password"
+                                        />
+                                        <button className={cx('btn-update')}>Update</button>
+                                    </form>
+                                </div>
+                            ) : null}
                         </div>
                         <div className={cx('img-profile')}>
-                            <img className={cx('img-avatar')} src={image.avatarDefault} alt={'avatar'} />
+                            <img
+                                className={cx('img-avatar')}
+                                src={`${changeAvatar || infoUser.avatar || image.avatarDefault}`}
+                                alt={'avatar'}
+                            />
                             <div className={cx('logout')}>
-                                <p>{infoUser.fullname}</p>
+                                <div className={cx('change-avatar')}>
+                                    <form action="/form/sumbit" method="get">
+                                        <label className={cx('label')}>
+                                            <input type={'file'} required onChange={(e) => handleChangeAvatar(e)} />
+                                            <span>Change Avatar</span>
+                                        </label>
+                                    </form>
+                                </div>
                                 <button onClick={handleLogout}>Logout</button>
+                                <button onClick={handleDeleteAccount}>Delete account</button>
                             </div>
                         </div>
                     </div>

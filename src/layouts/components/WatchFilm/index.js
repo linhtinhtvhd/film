@@ -1,16 +1,16 @@
 import { memo } from 'react';
-import Button from '~/components/Button';
+import Button from '../../../components/Button';
 import classNames from 'classnames/bind';
 import styles from './WatchFilm.module.scss';
-import api from '~/assets/Api';
-import { getUser, UpdateUser } from '~/apiServices/userService';
-import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
+import api from '../../../assets/Api';
+import { getUser, UpdateUser, getUserId } from '../../../apiServices/userService';
+import { LoginContext } from '../../../layouts/LoginLayout/LoginContext';
 import { useEffect, useContext } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const cx = classNames.bind(styles);
 function WatchFilm({ film, handleWatch, id, type }) {
-    const { user, newListfilm, setNewListfilm } = useContext(LoginContext);
+    const { user, newListfilm, setNewListfilm, infoUser } = useContext(LoginContext);
     const handleUpdateListfilm = (id, type, img, tittle, rate, overview) => {
         const watchList = newListfilm.filter((fi) => {
             return id !== fi.id;
@@ -20,14 +20,25 @@ function WatchFilm({ film, handleWatch, id, type }) {
             return [{ id: id, type: type, img: img, tittle: tittle, rate: rate, overview: overview }, ...watchList];
         });
     };
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setNewListfilm(res.data[0].listfilm || []);
+            });
+        };
 
+        if (infoUser) {
+            FeatchApiUser();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [infoUser, localStorage.getItem('token')]);
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
-        if (JSON.parse(localStorage.getItem('isLogin'))) {
+        if (user.username) {
             FeatchApiUser();
         }
 

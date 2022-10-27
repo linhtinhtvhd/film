@@ -3,21 +3,21 @@ import { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import SwiperCore, { Navigation } from 'swiper';
-import * as request from '~/utils/request';
-import Header from '~/layouts/DefaultLayout/Header';
+import * as request from '../../utils/request';
+import Header from '../../layouts/DefaultLayout/Header';
 import styles from './Watch.module.scss';
-import api from '~/assets/Api';
-import { getUser } from '~/apiServices/userService';
-import { getComment, updateComment } from '~/apiServices/commentService';
-import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
-import image from '~/img';
+import api from '../../assets/Api';
+import { getUser, getUserId } from '../../apiServices/userService';
+import { getComment, updateComment } from '../../apiServices/commentService';
+import { LoginContext } from '../../layouts/LoginLayout/LoginContext';
+import image from '../../img';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import Cast from '~/layouts/components/Cast';
-import Similar from '~/layouts/components/Similar';
+import Cast from '../../layouts/components/Cast';
+import Similar from '../../layouts/components/Similar';
 import { useContext } from 'react';
 import { CgPen } from 'react-icons/cg';
-import WatchFilm from '~/layouts/components/WatchFilm';
+import WatchFilm from '../../layouts/components/WatchFilm';
 const cx = classNames.bind(styles);
 SwiperCore.use([Navigation]);
 
@@ -26,8 +26,7 @@ function Watch() {
     const search = location.search;
     const navigate = useNavigate();
     const [comment, setComment] = useState([]);
-    const { user } = useContext(LoginContext);
-    const [infoUser, setInfoUser] = useState();
+    const { user, infoUser, setInfoUser } = useContext(LoginContext);
     const [newComment, setNewComment] = useState();
     const commentRef = useRef();
 
@@ -68,7 +67,14 @@ function Watch() {
         e.preventDefault();
         if (JSON.parse(localStorage.getItem('isLogin'))) {
             setComment((prev) => {
-                return [...prev, { fullname: infoUser.fullname, comment: newComment }];
+                return [
+                    ...prev,
+                    {
+                        fullname: infoUser.fullname,
+                        comment: newComment,
+                        avatar: infoUser.avatar,
+                    },
+                ];
             });
             commentRef.current.value = '';
         } else {
@@ -152,12 +158,24 @@ function Watch() {
                 setInfoUser(res.data[0]);
             });
         };
-        if (JSON.parse(localStorage.getItem('isLogin'))) {
+        if (user.username) {
             FeatchApiUser();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [localStorage.getItem('token')]);
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setInfoUser(res.data[0]);
+            });
+        };
+
+        if (infoUser) {
+            FeatchApiUser();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [localStorage.getItem('token')]);
     useEffect(() => {
         getComment(id).then((res) => {
             if (res.data.length > 0) {
@@ -273,7 +291,13 @@ function Watch() {
                                 }}
                             >
                                 <div className={cx('input')}>
-                                    <img className={cx('img-avatar')} src={image.avatarDefault} alt={'avatar'} />
+                                    {infoUser ? (
+                                        <img
+                                            className={cx('img-avatar')}
+                                            src={infoUser.avatar || image.avatarDefault}
+                                            alt={'avatar'}
+                                        />
+                                    ) : null}
                                     <input
                                         ref={commentRef}
                                         className={cx('input-cmt')}
@@ -289,23 +313,25 @@ function Watch() {
                                     <CgPen className={cx('icon-btn')} />
                                 </button>
                             </form>
-                            <div className={cx('info-cmt')}>
-                                {comment.map((res, index) => {
-                                    return (
-                                        <div className={cx('user-cmt')} key={index}>
-                                            <img
-                                                className={cx('img-avatar')}
-                                                src={image.avatarDefault}
-                                                alt={'avatar'}
-                                            />
-                                            <div className={cx('container-cmt')}>
-                                                <p className={cx('fullname-cmt')}>{res.fullname}</p>
-                                                <p className={cx('content-cmt')}>{res.comment}</p>
+                            {comment.length > 0 ? (
+                                <div className={cx('info-cmt')}>
+                                    {comment.map((res, index) => {
+                                        return (
+                                            <div className={cx('user-cmt')} key={index}>
+                                                <img
+                                                    className={cx('img-avatar')}
+                                                    src={res.avatar || image.avatarDefault}
+                                                    alt={'avatar'}
+                                                />
+                                                <div className={cx('container-cmt')}>
+                                                    <p className={cx('fullname-cmt')}>{res.fullname}</p>
+                                                    <p className={cx('content-cmt')}>{res.comment}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                 </div>

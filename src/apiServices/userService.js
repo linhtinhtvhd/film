@@ -1,10 +1,25 @@
-import http from '~/utils/http_common';
+import http from '../utils/http_common';
 
 const getUser = async (username, token) => {
     try {
         const result = await http.post(
             '/findByUsername',
             { username },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
+        return result;
+    } catch (error) {}
+};
+const getUserId = async (userid, token) => {
+    try {
+        const result = await http.post(
+            '/findById',
+            { userid },
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,19 +44,35 @@ const SignUp = async (fullname, username, password) => {
         await http.post('/create', { fullname, username, password });
     } catch (error) {}
 };
+
 const UpdateUser = async (update, token) => {
     try {
         await http.put(
             '/update',
-            { password: update.newPassword, fullname: update.newFullname, listfilm: update.newListfilm },
+            {
+                password: update.newPassword,
+                fullname: update.newFullname,
+                listfilm: update.newListfilm,
+                avatar: update.newAvatar,
+            },
             {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
+                    'Access-Control-Allow-Origin': '*',
                 },
             },
         );
     } catch (error) {}
 };
-
-export { getUser, LoginUser, UpdateUser, SignUp };
+const DeleteUser = async (token) => {
+    try {
+        await http.delete('/delete', {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    } catch (error) {}
+};
+export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId };

@@ -1,10 +1,11 @@
 import classNames from 'classnames/bind';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import styles from './Login.module.scss';
-import { LoginUser } from '~/apiServices/userService';
-import { Link, useNavigate } from 'react-router-dom';
-import { LoginContext } from '~/layouts/LoginLayout/LoginContext';
-import image from '~/img';
+import { LoginUser } from '../../apiServices/userService';
+
+import { LoginContext } from '../../layouts/LoginLayout/LoginContext';
+import image from '../../img';
 const cx = classNames.bind(styles);
 
 function Login() {
@@ -86,6 +87,21 @@ function Login() {
                     <button>login</button>
                     <p className={cx('message')}>Not registered?</p>
                     <Link to={`/signup`}>Sign Up</Link>
+
+                    <button
+                        onClick={() => {
+                            window.open('https://film-pinklink.herokuapp.com/auth/google', '_self');
+                        }}
+                    >
+                        google
+                    </button>
+                    <button
+                        onClick={() => {
+                            window.open('https://film-pinklink.herokuapp.com/auth/facebook', '_self');
+                        }}
+                    >
+                        facebook
+                    </button>
                 </form>
             </div>
         </div>

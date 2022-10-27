@@ -1,4 +1,4 @@
-import config from '~/config';
+import config from '../config';
 
 import Home from '~/pages/Home';
 import Search from '~/pages/Search';

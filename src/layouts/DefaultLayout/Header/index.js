@@ -1,17 +1,21 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
-import config from '~/config';
-import Search from '~/layouts/components/Search';
-import Button from '~/components/Button';
+import config from '../../../config';
+import Search from '../../../layouts/components/Search';
+import Button from '../../../components/Button';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { getUser, getUserId } from '../../../apiServices/userService';
+import { LoginContext } from '../../../layouts/LoginLayout/LoginContext';
 
-import image from '~/img';
+import image from '../../../img';
 
 const cx = classNames.bind(styles);
 
 function Header() {
+    const { user, changeAvatar, infoUser, setInfoUser, userId } = useContext(LoginContext);
+
     const [active, setActive] = useState(false);
     const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('isLogin')));
     useEffect(() => {
@@ -19,6 +23,30 @@ function Header() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localStorage.getItem('isLogin')]);
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setInfoUser(res.data[0]);
+            });
+        };
+        if (user.username) {
+            FeatchApiUser();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLogin]);
+    useEffect(() => {
+        const FeatchApiUser = async () => {
+            getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                console.log(res);
+                setInfoUser(res.data[0]);
+            });
+        };
+
+        FeatchApiUser();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLogin]);
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -67,11 +95,17 @@ function Header() {
                             Login
                         </Button>
                     </div>
-                    <div className={cx('logout', `${!isLogin && 'islogin'}`)}>
-                        <Link to={config.routes.profile}>
-                            <img className={cx('img-avatar')} src={image.avatarDefault} alt={'avatar'} />
-                        </Link>
-                    </div>
+                    {infoUser ? (
+                        <div className={cx('logout', `${!isLogin && 'islogin'}`)}>
+                            <Link to={config.routes.profile}>
+                                <img
+                                    className={cx('img-avatar')}
+                                    src={`${changeAvatar || infoUser.avatar || image.avatarDefault}`}
+                                    alt={'avatar'}
+                                />
+                            </Link>
+                        </div>
+                    ) : null}
                     <AiOutlineMenu
                         className={cx('btn-menu')}
                         onClick={() => {
