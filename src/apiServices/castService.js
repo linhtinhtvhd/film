@@ -1,5 +1,5 @@
 import * as request from '../utils/request';
-import api from '~/assets/Api';
+import api from '../assets/Api';
 const Cast = async (type = 'movie', time = 'day', id) => {
     try {
         const res = await request.get(`${type}/${id}/casts`, {

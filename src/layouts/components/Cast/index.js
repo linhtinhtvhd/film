@@ -6,7 +6,7 @@ import styles from './Cast.module.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import api from '~/assets/Api';
+import api from '../../../assets/Api';
 
 const cx = classNames.bind(styles);
 function Cast({ cast }) {
