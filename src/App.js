@@ -25,7 +25,6 @@ function App() {
             });
         };
         getUserId();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [window.location()]);
 
     return (
