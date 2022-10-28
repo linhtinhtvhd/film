@@ -1,10 +1,9 @@
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-export const app = () => {
+module.exports = function (app) {
     app.use(
-        '/auth/login/succes',
-        createProxyMiddleware({
-            target: 'https://cors-anywhere.herokuapp.com/https://film-pinklink.herokuapp.com',
+        createProxyMiddleware('/auth/login/succes', {
+            target: 'https://film-pinklink.herokuapp.com',
             changeOrigin: true,
         }),
     );
