@@ -80,7 +80,7 @@ const User = async () => {
     try {
         const result = await fix.get(
             '/auth/login/success',
-
+            { withCredentials: true },
             {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded',
