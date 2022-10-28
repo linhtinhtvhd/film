@@ -8,8 +8,8 @@ function App() {
     const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
 
     useEffect(() => {
-        const getUserId = async () => {
-            await axios({
+        const getUserId = () => {
+            axios({
                 method: 'GET',
                 url: 'https://film-pinklink.herokuapp.com/auth/login/success',
 
@@ -30,7 +30,7 @@ function App() {
         };
         getUserId();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    });
+    }, []);
 
     return (
         <Router>
