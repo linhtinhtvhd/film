@@ -11,15 +11,16 @@ function App() {
         const getUserId = async () => {
             await axios
                 .get(
-                    '/auth/login/succes',
+                    '/auth/login/success',
 
                     {
-                        // headers: {
-                        //     'Content-Type': 'application/json',
-                        //     'Access-Control-Allow-Origin': '*',
-                        // },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                        },
                         baseURL: 'https://film-pinklink.herokuapp.com',
                         // withCredentials: true,
+                        credentials: true,
                     },
                 )
                 .then((res) => {
