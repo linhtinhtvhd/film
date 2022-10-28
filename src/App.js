@@ -9,23 +9,29 @@ function App() {
 
     useEffect(() => {
         const getUserId = async () => {
-            await axios({
-                method: 'GET',
-                url: 'https://film-pinklink.herokuapp.com/auth/login/success',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            }).then((res) => {
-                console.log(res.data.user.profile.id);
-                if (res) {
-                    setIsLogin(true);
-                    localStorage.setItem('isLogin', true);
-                    localStorage.setItem('token', JSON.stringify(res.data.user.token));
-                }
-                setUserId(res.data.user.profile.id);
-                setInfoUser(res.data.user.profile);
-            });
+            await axios
+                .get(
+                    '/auth/login/succes',
+
+                    {
+                        // headers: {
+                        //     'Content-Type': 'application/json',
+                        //     'Access-Control-Allow-Origin': '*',
+                        // },
+                        baseURL: 'https://film-pinklink.herokuapp.com',
+                        // withCredentials: true,
+                    },
+                )
+                .then((res) => {
+                    console.log(res.data.user.profile.id);
+                    if (res) {
+                        setIsLogin(true);
+                        localStorage.setItem('isLogin', true);
+                        localStorage.setItem('token', JSON.stringify(res.data.user.token));
+                    }
+                    setUserId(res.data.user.profile.id);
+                    setInfoUser(res.data.user.profile);
+                });
         };
         getUserId();
         // eslint-disable-next-line react-hooks/exhaustive-deps
