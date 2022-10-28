@@ -83,8 +83,8 @@ const User = async () => {
 
             {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://film-linhtinhtvhd.vercel.app',
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin': '*',
                 },
             },
         );
