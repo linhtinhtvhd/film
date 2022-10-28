@@ -15,7 +15,7 @@ function App() {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': true,
+                    'Access-Control-Allow-Origin': '*',
                 },
             }).then((res) => {
                 console.log(res.data.user.profile.id);
