@@ -78,7 +78,7 @@ const DeleteUser = async (token) => {
 };
 const User = async () => {
     try {
-        const result = await http.get('/findById');
+        const result = await fix.get('/auth/findById');
         return result;
     } catch (error) {}
 };
