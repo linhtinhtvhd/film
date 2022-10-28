@@ -8,14 +8,14 @@ function App() {
     const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
 
     useEffect(() => {
-        const getUserId = () => {
-            axios({
+        const getUserId = async () => {
+            await axios({
                 method: 'GET',
                 url: 'https://film-pinklink.herokuapp.com/auth/login/success',
-
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Origin': true,
                 },
             }).then((res) => {
                 console.log(res.data.user.profile.id);
