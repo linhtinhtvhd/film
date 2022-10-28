@@ -78,16 +78,7 @@ const DeleteUser = async (token) => {
 };
 const User = async () => {
     try {
-        const result = await fix.get(
-            '/auth/login/success',
-            { withCredentials: true },
-            {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin': '*',
-                },
-            },
-        );
+        const result = await http.get('/findById');
         return result;
     } catch (error) {}
 };
