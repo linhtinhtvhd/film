@@ -12,7 +12,11 @@ function App() {
             await axios({
                 method: 'GET',
                 url: 'https://film-pinklink.herokuapp.com/auth/login/success',
-                withCredentials: true,
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
             }).then((res) => {
                 console.log(res.data.user.profile.id);
                 if (res) {
@@ -26,7 +30,7 @@ function App() {
         };
         getUserId();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    });
 
     return (
         <Router>
