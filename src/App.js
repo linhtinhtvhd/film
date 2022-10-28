@@ -13,11 +13,9 @@ function App() {
                 method: 'GET',
                 url: 'https://film-pinklink.herokuapp.com/auth/login/success',
                 headers: {
-                    'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
                 },
                 withCredentials: true,
-                credentials: 'include',
             }).then((res) => {
                 console.log(res.data.user.profile.id);
                 if (res) {
