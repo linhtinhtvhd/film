@@ -1,4 +1,5 @@
 import http from '../utils/http_common';
+import fix from '../utils/fixCors';
 
 const getUser = async (username, token) => {
     try {
@@ -75,4 +76,19 @@ const DeleteUser = async (token) => {
         });
     } catch (error) {}
 };
-export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId };
+const User = async () => {
+    try {
+        const result = await fix.get(
+            '/auth/login/success',
+
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+            },
+        );
+        return result;
+    } catch (error) {}
+};
+export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId, User };

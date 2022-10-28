@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts';
 import { Fragment, useEffect, useContext } from 'react';
+import { User } from './apiServices/userService';
 import axios from 'axios';
 import { LoginContext } from './layouts/LoginLayout/LoginContext';
 function App() {
@@ -9,30 +10,10 @@ function App() {
 
     useEffect(() => {
         const getUserId = async () => {
-            await axios
-                .get(
-                    '/auth/login/success',
-
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*',
-                        },
-                        baseURL: 'https://film-pinklink.herokuapp.com',
-                        // withCredentials: true,
-                        credentials: true,
-                    },
-                )
-                .then((res) => {
-                    console.log(res.data.user.profile.id);
-                    if (res) {
-                        setIsLogin(true);
-                        localStorage.setItem('isLogin', true);
-                        localStorage.setItem('token', JSON.stringify(res.data.user.token));
-                    }
-                    setUserId(res.data.user.profile.id);
-                    setInfoUser(res.data.user.profile);
-                });
+            try {
+                const res = await User();
+                console.log(res);
+            } catch (error) {}
         };
         getUserId();
         // eslint-disable-next-line react-hooks/exhaustive-deps
