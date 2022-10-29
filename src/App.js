@@ -16,12 +16,6 @@ function App() {
                     method: 'GET',
                     url: 'http://localhost:3001/auth/login/success',
                     withCredentials: true,
-
-                    headers: {
-                        'Content-Type': 'application/json',
-
-                        'Access-Control-Allow-Origin': '*',
-                    },
                 }).then((res) => {
                     console.log(res);
                     if (res) {
