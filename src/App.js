@@ -8,16 +8,16 @@ import { LoginContext } from './layouts/LoginLayout/LoginContext';
 function App() {
     const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
 
-    // useEffect(() => {
-    //     const getUserId = async () => {
-    //         try {
-    //             const res = await User();
-    //             console.log(res);
-    //         } catch (error) {}
-    //     };
-    //     getUserId();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+    useEffect(() => {
+        const getUserId = async () => {
+            try {
+                const res = await User();
+                console.log(res);
+            } catch (error) {}
+        };
+        getUserId();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Router>

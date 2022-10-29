@@ -76,10 +76,10 @@ const DeleteUser = async (token) => {
         });
     } catch (error) {}
 };
-// const User = async () => {
-//     try {
-//         const result = await fix.get('/auth/login/success');
-//         return result;
-//     } catch (error) {}
-// };
-export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId };
+const User = async () => {
+    try {
+        const result = await fix.get('/auth/login/success');
+        return result;
+    } catch (error) {}
+};
+export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId, User };
