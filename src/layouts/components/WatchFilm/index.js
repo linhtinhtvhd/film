@@ -3,14 +3,14 @@ import Button from '../../../components/Button';
 import classNames from 'classnames/bind';
 import styles from './WatchFilm.module.scss';
 import api from '../../../assets/Api';
-import { getUser, UpdateUser, getUserId } from '../../../apiServices/userService';
+import { getUser, UpdateUser, getUserId, UpdateUserId } from '../../../apiServices/userService';
 import { LoginContext } from '../../../layouts/LoginLayout/LoginContext';
 import { useEffect, useContext } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const cx = classNames.bind(styles);
 function WatchFilm({ film, handleWatch, id, type }) {
-    const { user, newListfilm, setNewListfilm, infoUser } = useContext(LoginContext);
+    const { user, newListfilm, setNewListfilm, infoUser, userId } = useContext(LoginContext);
     const handleUpdateListfilm = (id, type, img, tittle, rate, overview) => {
         const watchList = newListfilm.filter((fi) => {
             return id !== fi.id;
@@ -52,7 +52,13 @@ function WatchFilm({ film, handleWatch, id, type }) {
             featchUpdate();
         }
     }, [newListfilm]);
+    useEffect(() => {
+        const featchUpdate = async () => {
+            await UpdateUserId({ newListfilm }, JSON.parse(localStorage.getItem('token')));
+        };
 
+        featchUpdate();
+    }, [newListfilm, userId]);
     return (
         <div className={cx('film')}>
             <LazyLoadImage

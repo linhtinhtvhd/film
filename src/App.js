@@ -2,20 +2,33 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts';
 import { Fragment, useEffect, useContext } from 'react';
-import { User } from './apiServices/userService';
+
+import { getUserId } from './apiServices/userService';
 import axios from 'axios';
 import { LoginContext } from './layouts/LoginLayout/LoginContext';
 function App() {
-    const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
+    const { setInfoUser, setIsLogin, setUserId, userId } = useContext(LoginContext);
 
     useEffect(() => {
-        const getUserId = async () => {
+        const getUser = async () => {
             try {
-                const res = await User();
-                console.log(res);
+                await axios({
+                    method: 'GET',
+                    url: 'http://localhost:3001/auth/login/success',
+                    withCredentials: true,
+                }).then((res) => {
+                    console.log(res);
+                    if (res) {
+                        setIsLogin(true);
+                        localStorage.setItem('isLogin', true);
+                        localStorage.setItem('token', JSON.stringify(res.data.user.token));
+                    }
+                    setUserId(res.data.user.profile.id);
+                    setInfoUser(res.data.user.profile);
+                });
             } catch (error) {}
         };
-        getUserId();
+        getUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

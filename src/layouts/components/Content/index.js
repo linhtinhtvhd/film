@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import classNames from 'classnames/bind';
-import { getUser, UpdateUser, getUserId } from '../../../apiServices/userService';
+import { getUser, UpdateUser, getUserId, UpdateUserId } from '../../../apiServices/userService';
 import MvPopular from '../../../apiServices/popularServiceMv';
 import { LoginContext } from '../../../layouts/LoginLayout/LoginContext';
 import styles from './Content.module.scss';
@@ -20,7 +20,7 @@ import Button from '../../../components/Button';
 
 const cx = classNames.bind(styles);
 function Content() {
-    const { user, newListfilm, setNewListfilm, infoUser } = useContext(LoginContext);
+    const { user, newListfilm, setNewListfilm, infoUser, userId } = useContext(LoginContext);
     const [moviePopular, setMoviePupular] = useState([]);
     const [height, setHeight] = useState((window.innerWidth * 9) / 16);
     const handleHeight = () => {
@@ -40,9 +40,9 @@ function Content() {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
-
+        console.log();
         if (infoUser) {
-            FeatchApiUser();
+            FeatchApiUser(infoUser.id);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [infoUser, localStorage.getItem('token')]);
@@ -63,10 +63,17 @@ function Content() {
             await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
         };
 
-        if (newListfilm.length > 0) {
+        if (newListfilm.length > 0 && !userId) {
             featchUpdate();
         }
     }, [newListfilm, user.username]);
+    useLayoutEffect(() => {
+        const featchUpdate = async () => {
+            await UpdateUserId({ newListfilm }, JSON.parse(localStorage.getItem('token')));
+        };
+
+        featchUpdate();
+    }, [newListfilm, userId]);
 
     useEffect(() => {
         const featchApi = async () => {

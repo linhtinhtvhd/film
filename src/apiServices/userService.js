@@ -66,6 +66,26 @@ const UpdateUser = async (update, token) => {
         );
     } catch (error) {}
 };
+const UpdateUserId = async (update, token) => {
+    try {
+        await http.put(
+            '/updateId',
+            {
+                password: update.newPassword,
+                fullname: update.newFullname,
+                listfilm: update.newListfilm,
+                avatar: update.newAvatar,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                    'Access-Control-Allow-Origin': '*',
+                },
+            },
+        );
+    } catch (error) {}
+};
 const DeleteUser = async (token) => {
     try {
         await http.delete('/delete', {
@@ -82,4 +102,4 @@ const User = async () => {
         return result;
     } catch (error) {}
 };
-export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId, User };
+export { getUser, LoginUser, UpdateUser, SignUp, DeleteUser, getUserId, User, UpdateUserId };
