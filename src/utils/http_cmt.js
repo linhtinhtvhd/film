@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'https://film-pinklink.herokuapp.com/api/comments/',
+    baseURL: 'http://localhost:3001/api/comments/',
     headers: {
         'Content-Type': 'application/json',
     },

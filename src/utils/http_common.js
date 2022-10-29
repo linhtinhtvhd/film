@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'https://film-pinklink.herokuapp.com/api/users',
+    baseURL: 'http://localhost:3001/api/users',
     headers: {
         'Content-Type': 'application/json',
     },
