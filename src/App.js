@@ -14,7 +14,7 @@ function App() {
             try {
                 await axios({
                     method: 'GET',
-                    url: 'http://localhost:3001/auth/login/success',
+                    url: 'https://cors-anywhere.herokuapp.com/http://localhost:3001/auth/login/success',
                     withCredentials: true,
                 }).then((res) => {
                     console.log(res);
