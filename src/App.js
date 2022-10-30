@@ -14,8 +14,12 @@ function App() {
             try {
                 await axios({
                     method: 'GET',
-                    url: 'http://localhost:3001/auth/login/success',
+                    url: 'https://film-pinklink.herokuapp.com/auth/login/success',
                     withCredentials: true,
+                    headers: {
+                        'content-type': 'application/json; charset=UTF-8',
+                        'access-control-allow-origin': '*',
+                    },
                 }).then((res) => {
                     console.log(res);
                     if (res) {

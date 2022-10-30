@@ -56,8 +56,7 @@ function WatchFilm({ film, handleWatch, id, type }) {
         const featchUpdate = async () => {
             await UpdateUserId({ newListfilm }, JSON.parse(localStorage.getItem('token')));
         };
-
-        featchUpdate();
+        if (newListfilm.length > 0) featchUpdate();
     }, [newListfilm, userId]);
     return (
         <div className={cx('film')}>

@@ -6,6 +6,7 @@ import { getUser, UpdateUser, DeleteUser, getUserId } from '../../apiServices/us
 import { LoginContext } from '../../layouts/LoginLayout/LoginContext';
 import image from '../../img';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +42,16 @@ function Profile() {
     const handleLogout = () => {
         localStorage.setItem('isLogin', false);
         localStorage.removeItem('token');
+        const getUser = async () => {
+            try {
+                await axios({
+                    method: 'GET',
+                    url: 'http://localhost:3001/auth/logout',
+                    withCredentials: true,
+                });
+            } catch (error) {}
+        };
+        getUser();
         Navigate('/');
     };
     const handleDeleteAccount = async () => {
