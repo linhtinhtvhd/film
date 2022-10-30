@@ -16,6 +16,11 @@ function App() {
                     method: 'GET',
                     url: 'https://cors-anywhere.herokuapp.com/http://localhost:3001/auth/login/success',
                     withCredentials: true,
+                    headers: {
+                        'content-type': 'application/json; charset=UTF-8',
+                        'access-control-allow-origin': '*',
+                        'access-control-expose-headers': '*',
+                    },
                 }).then((res) => {
                     console.log(res);
                     if (res) {
