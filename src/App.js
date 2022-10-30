@@ -19,7 +19,7 @@ function App() {
                     headers: {
                         'content-type': 'application/json; charset=UTF-8',
                         'access-control-allow-origin': '*',
-                        'access-control-expose-headers': '*',
+                        'X-Requested-With': 'XMLHttpRequest',
                     },
                 }).then((res) => {
                     console.log(res);
