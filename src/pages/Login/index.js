@@ -39,6 +39,24 @@ function Login() {
                         <h3>LOGIN</h3>
                         <p>Please enter your credentials to login.</p>
                     </div>
+                    <div className={cx('face')}>
+                        <img
+                            className={cx('logo-img')}
+                            src={image.facebook}
+                            alt="facebook"
+                            onClick={() => {
+                                window.open('https://film-pinklink.herokuapp.com/auth/facebook', '_self');
+                            }}
+                        />
+                        <img
+                            className={cx('logo-img')}
+                            src={image.google}
+                            alt="google"
+                            onClick={() => {
+                                window.open('https://film-pinklink.herokuapp.com/auth/google', '_self');
+                            }}
+                        />
+                    </div>
                 </div>
                 <form className={cx('login-form')} onSubmit={handleLogin}>
                     <div className={cx('input')}>
@@ -87,21 +105,6 @@ function Login() {
                     <button>login</button>
                     <p className={cx('message')}>Not registered?</p>
                     <Link to={`/signup`}>Sign Up</Link>
-
-                    <button
-                        onClick={() => {
-                            window.open('https://film-pinklink.herokuapp.com/auth/google', '_self');
-                        }}
-                    >
-                        google
-                    </button>
-                    <button
-                        onClick={() => {
-                            window.open('https://film-pinklink.herokuapp.com/auth/facebook', '_self');
-                        }}
-                    >
-                        facebook
-                    </button>
                 </form>
             </div>
         </div>

@@ -9,6 +9,18 @@
 .login-page {
     position: relative;
 }
+.face {
+    width: 35%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.logo-img {
+    cursor: pointer;
+    width: 50px;
+    border-radius: 50%;
+}
 .background {
     video {
         width: 100vw;
@@ -118,4 +130,33 @@
 }
 .input {
     margin-bottom: 20px;
+}
+@media only screen and (max-width: 739px) {
+    .background {
+        video {
+            display: none;
+        }
+    }
+    .login-header {
+        h3 {
+            font-size: 2rem;
+        }
+        p {
+            font-size: 1.6rem;
+        }
+    }
+    .error {
+        width: 300px;
+        font-size: 1.4rem;
+    }
+    .form {
+        input {
+            width: 300px;
+            background-color: #b3b3b3;
+            color: #000;
+            &::placeholder {
+                color: #000;
+            }
+        }
+    }
 }

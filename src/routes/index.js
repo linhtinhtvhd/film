@@ -17,6 +17,7 @@ import SearchLayout from '../layouts/SearchLayout';
 import LoginLayout from '../layouts/LoginLayout';
 import SignUpLayout from '../layouts/SignUpLayout';
 import ProfileLayout from '../layouts/ProfileLayout';
+import ContactLayout from '../layouts/ContactLayout';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -26,7 +27,7 @@ const publicRoutes = [
     { path: config.routes.tv, component: Tvshow, layout: MvTvLayout },
     { path: config.routes.movie, component: Watch, layout: WatchLayout },
     { path: config.routes.tvshow, component: Watch, layout: WatchLayout },
-    { path: config.routes.contact, component: Contact },
+    { path: config.routes.contact, component: Contact, layout: ContactLayout },
     { path: config.routes.explore, component: Explore, layout: ExploreLayout },
     { path: config.routes.login, component: Login, layout: LoginLayout },
     { path: config.routes.signup, component: SignUp, layout: SignUpLayout },

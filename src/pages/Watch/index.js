@@ -280,58 +280,58 @@ function Watch() {
                                 <p>{film.overview}</p>
                             </div>
                             <Cast cast={cast} />
-                            <Similar similar={similar} type={type} />
-                        </div>
-                        <div className={cx('comment-user')}>
-                            <p className={cx('tittle-cmt')}>Comment</p>
-                            <form
-                                className={cx('form-cmt')}
-                                onSubmit={(e) => {
-                                    handleComment(e);
-                                }}
-                            >
-                                <div className={cx('input')}>
-                                    {infoUser ? (
-                                        <img
-                                            className={cx('img-avatar')}
-                                            src={infoUser.avatar || image.avatarDefault}
-                                            alt={'avatar'}
+                            <div className={cx('comment-user')}>
+                                <p className={cx('tittle-cmt')}>Comment</p>
+                                <form
+                                    className={cx('form-cmt')}
+                                    onSubmit={(e) => {
+                                        handleComment(e);
+                                    }}
+                                >
+                                    <div className={cx('input')}>
+                                        {infoUser ? (
+                                            <img
+                                                className={cx('img-avatar')}
+                                                src={infoUser.avatar || image.avatarDefault}
+                                                alt={'avatar'}
+                                            />
+                                        ) : null}
+                                        <input
+                                            ref={commentRef}
+                                            className={cx('input-cmt')}
+                                            placeholder="Enter your comment..."
+                                            type={'text'}
+                                            onChange={(e) => {
+                                                setNewComment(e.target.value);
+                                            }}
                                         />
-                                    ) : null}
-                                    <input
-                                        ref={commentRef}
-                                        className={cx('input-cmt')}
-                                        placeholder=""
-                                        type={'text'}
-                                        onChange={(e) => {
-                                            setNewComment(e.target.value);
-                                        }}
-                                    />
-                                </div>
-                                <button className={cx('btn-cmt')}>
-                                    {' '}
-                                    <CgPen className={cx('icon-btn')} />
-                                </button>
-                            </form>
-                            {comment.length > 0 ? (
-                                <div className={cx('info-cmt')}>
-                                    {comment.map((res, index) => {
-                                        return (
-                                            <div className={cx('user-cmt')} key={index}>
-                                                <img
-                                                    className={cx('img-avatar')}
-                                                    src={res.avatar || image.avatarDefault}
-                                                    alt={'avatar'}
-                                                />
-                                                <div className={cx('container-cmt')}>
-                                                    <p className={cx('fullname-cmt')}>{res.fullname}</p>
-                                                    <p className={cx('content-cmt')}>{res.comment}</p>
+                                    </div>
+                                    <button className={cx('btn-cmt')}>
+                                        {' '}
+                                        <CgPen className={cx('icon-btn')} />
+                                    </button>
+                                </form>
+                                {comment.length > 0 ? (
+                                    <div className={cx('info-cmt')}>
+                                        {comment.map((res, index) => {
+                                            return (
+                                                <div className={cx('user-cmt')} key={index}>
+                                                    <img
+                                                        className={cx('img-avatar')}
+                                                        src={res.avatar || image.avatarDefault}
+                                                        alt={'avatar'}
+                                                    />
+                                                    <div className={cx('container-cmt')}>
+                                                        <p className={cx('fullname-cmt')}>{res.fullname}</p>
+                                                        <p className={cx('content-cmt')}>{res.comment}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            ) : null}
+                                            );
+                                        })}
+                                    </div>
+                                ) : null}
+                            </div>
+                            <Similar similar={similar} type={type} />
                         </div>
                     </div>
                 </div>

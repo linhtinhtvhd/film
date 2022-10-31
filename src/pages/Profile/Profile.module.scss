@@ -208,3 +208,67 @@ label.label input[type='file'] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+@media only screen and (min-width: 1024px) and (max-width: 1160px) {
+    .inner {
+        width: 1024px;
+    }
+    .list-film {
+        width: 1024px;
+    }
+}
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    .inner {
+        width: 740px;
+    }
+    .img-profile {
+        .img-avatar {
+            width: 150px;
+        }
+    }
+    .list-film {
+        width: 740px;
+    }
+    .overview-film {
+        font-size: 1.4rem;
+    }
+}
+@media only screen and (max-width: 739px) {
+    .inner {
+        max-width: 739px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .img-profile {
+        margin-top: 20px;
+        .img-avatar {
+            width: 100px;
+        }
+    }
+    .list-film {
+        width: 90%;
+    }
+    .overview-film {
+        display: none;
+    }
+    .tittle-film {
+        display: -webkit-box;
+        max-width: 100%;
+        margin: 0 auto;
+        font-size: 1.6rem;
+        line-height: 1;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inner-listfilm {
+        width: 98%;
+    }
+    .rate-film {
+        font-size: 1.4rem;
+    }
+    .img-film {
+        width: 150px;
+    }
+}
