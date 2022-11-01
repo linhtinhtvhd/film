@@ -2,8 +2,6 @@
     "name": "phimmoi",
     "version": "0.1.0",
     "private": true,
-    "proxy": "https://film-pinklink.herokuapp.com",
-    "homepage": "https://film-linhtinhtvhd.vercel.app",
     "dependencies": {
         "@emotion/react": "^11.10.4",
         "@emotion/styled": "^11.10.4",
