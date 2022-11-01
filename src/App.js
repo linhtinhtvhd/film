@@ -3,24 +3,18 @@ import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts';
 import { Fragment, useEffect, useContext } from 'react';
 
-import { getUserId } from './apiServices/userService';
 import axios from 'axios';
 import { LoginContext } from './layouts/LoginLayout/LoginContext';
 function App() {
-    const { setInfoUser, setIsLogin, setUserId, userId } = useContext(LoginContext);
+    const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
 
     useEffect(() => {
         const getUser = async () => {
             try {
                 await axios({
                     method: 'GET',
-                    url: 'https://cors-anywhere.herokuapp.com/http://localhost:3001/auth/login/success',
+                    url: 'http://localhost:3001/auth/login/success',
                     withCredentials: true,
-                    headers: {
-                        'content-type': 'application/json; charset=UTF-8',
-                        'access-control-allow-origin': '*',
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
                 }).then((res) => {
                     console.log(res);
                     if (res) {

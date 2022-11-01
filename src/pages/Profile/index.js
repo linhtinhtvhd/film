@@ -1,20 +1,21 @@
 import classNames from 'classnames/bind';
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect, useRef, useLayoutEffect } from 'react';
 import styles from './Profile.module.scss';
 import { CgPen, CgShapeTriangle } from 'react-icons/cg';
-import { getUser, UpdateUser, DeleteUser, getUserId } from '../../apiServices/userService';
+import { getUser, UpdateUser, DeleteUser, getUserId, UpdateUserId } from '../../apiServices/userService';
 import { LoginContext } from '../../layouts/LoginLayout/LoginContext';
 import image from '../../img';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { AiFillDelete } from 'react-icons/ai';
 const cx = classNames.bind(styles);
 
 function Profile() {
     const Navigate = useNavigate();
     const passwordRef = useRef();
     const fullnameRef = useRef();
-    const { user, setChangeAvatar, changeAvatar, infoUser, setInfoUser, userId } = useContext(LoginContext);
+    const { user, setChangeAvatar, changeAvatar, infoUser, setInfoUser, userId, newListfilm, setNewListfilm } =
+        useContext(LoginContext);
 
     const [newPassword, setNewPassword] = useState('');
     const [newFullname, setNewFullname] = useState('');
@@ -38,6 +39,15 @@ function Profile() {
     };
     const handleActive = () => {
         setActive(true);
+    };
+    const handleNewListfilm = (id) => {
+        const watchList = newListfilm.filter((fi) => {
+            return id !== fi.id;
+        });
+        console.log(watchList);
+        setNewListfilm(watchList);
+        if (userId) {
+        }
     };
     const handleLogout = () => {
         localStorage.setItem('isLogin', false);
@@ -84,24 +94,41 @@ function Profile() {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 setInfoUser(res.data[0]);
+                setNewListfilm(res.data[0].listfilm || []);
             });
         };
-        if (user.username) {
-            FeatchApiUser();
-        }
+
+        FeatchApiUser();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [user.username]);
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 setInfoUser(res.data[0]);
+                setNewListfilm(res.data[0].listfilm || []);
             });
         };
-        if (userId) {
-            FeatchApiUser();
-        }
+
+        FeatchApiUser();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [localStorage.getItem('token')]);
+    useLayoutEffect(() => {
+        const featchUpdate = async () => {
+            await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
+        };
+
+        if (newListfilm.length > 0 && !userId) {
+            featchUpdate();
+        }
+    }, [newListfilm, user.username]);
+    useLayoutEffect(() => {
+        const featchUpdate = async () => {
+            await UpdateUserId({ newListfilm }, JSON.parse(localStorage.getItem('token')));
+        };
+        if (newListfilm.length > 0) featchUpdate();
+    }, [newListfilm, userId]);
     return (
         <>
             {infoUser ? (
@@ -193,24 +220,32 @@ function Profile() {
                     </div>
                     <div className={cx('list-film')}>
                         <p className={cx('tittle')}>Danh sách phim đã thêm</p>
-                        {infoUser.listfilm.map((res) => {
+                        {newListfilm.map((res) => {
                             return (
-                                <Link to={`/${res.type}/${res.id}`} key={res.id}>
-                                    <div className={cx('inner-listfilm')}>
-                                        <img className={cx('img-film')} src={res.img} alt={res.tittle} />
-                                        <div className={cx('info-film')}>
-                                            <span className={cx('tittle-film')}>{res.tittle}</span>
-                                            <p className={cx('rate-film')}>
-                                                <strong>Rate:</strong>
-                                                {res.rate}
-                                            </p>
-                                            <p className={cx('overview-film')}>
-                                                <strong>Overview:</strong>
-                                                {res.overview}
-                                            </p>
+                                <div className={cx('list')} key={res.id}>
+                                    <Link to={`/${res.type}/${res.id}`} className={cx('wrapper-listfilm')}>
+                                        <div className={cx('inner-listfilm')}>
+                                            <img className={cx('img-film')} src={res.img} alt={res.tittle} />
+                                            <div className={cx('info-film')}>
+                                                <span className={cx('tittle-film')}>{res.tittle}</span>
+                                                <p className={cx('rate-film')}>
+                                                    <strong>Rate:</strong>
+                                                    {res.rate}
+                                                </p>
+                                                <p className={cx('overview-film')}>
+                                                    <strong>Overview:</strong>
+                                                    {res.overview}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                    <AiFillDelete
+                                        className={cx('icon-delete')}
+                                        onClick={() => {
+                                            return handleNewListfilm(res.id);
+                                        }}
+                                    />
+                                </div>
                             );
                         })}
                     </div>
