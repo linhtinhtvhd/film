@@ -13,7 +13,7 @@ function App() {
             try {
                 await axios({
                     method: 'GET',
-                    url: 'https://film-pinklink.herokuapp.com/auth/login/success',
+                    url: 'http://localhost:3001/auth/login/success',
                     withCredentials: true,
                 }).then((res) => {
                     console.log(res);
