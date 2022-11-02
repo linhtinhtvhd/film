@@ -5,7 +5,7 @@ import styles from './WatchFilm.module.scss';
 import api from '../../../assets/Api';
 import { getUser, UpdateUser, getUserId, UpdateUserId } from '../../../apiServices/userService';
 import { LoginContext } from '../../../layouts/LoginLayout/LoginContext';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useLayoutEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const cx = classNames.bind(styles);
@@ -22,42 +22,44 @@ function WatchFilm({ film, handleWatch, id, type }) {
     };
     useEffect(() => {
         const FeatchApiUser = async () => {
-            getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setNewListfilm(res.data.listfilm || []);
+            getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                setNewListfilm(res.data[0].listfilm || []);
             });
         };
 
-        if (infoUser) {
+        if (userId) {
             FeatchApiUser();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [infoUser, localStorage.getItem('token')]);
+    }, [userId, localStorage.getItem('token')]);
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setNewListfilm(res.data.listfilm || []);
+                setNewListfilm(res.data[0].listfilm || []);
             });
         };
+
         if (user.username) {
             FeatchApiUser();
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    useEffect(() => {
+    }, [user.username, localStorage.getItem('token')]);
+    useLayoutEffect(() => {
         const featchUpdate = async () => {
             await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
         };
-        if (newListfilm.length > 0) {
+
+        if (newListfilm.length > 0 && !userId) {
             featchUpdate();
         }
-    }, [newListfilm]);
-    useEffect(() => {
+    }, [newListfilm, user.username]);
+    useLayoutEffect(() => {
         const featchUpdate = async () => {
             await UpdateUserId({ newListfilm }, JSON.parse(localStorage.getItem('token')));
         };
         if (newListfilm.length > 0) featchUpdate();
     }, [newListfilm, userId]);
+
     return (
         <div className={cx('film')}>
             <LazyLoadImage

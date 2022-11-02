@@ -155,7 +155,7 @@ function Watch() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setInfoUser(res.data);
+                setInfoUser(res.data[0]);
             });
         };
         if (user.username) {
@@ -167,7 +167,7 @@ function Watch() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setInfoUser(res.data);
+                setInfoUser(res.data[0]);
             });
         };
 
@@ -179,7 +179,7 @@ function Watch() {
     useEffect(() => {
         getComment(id).then((res) => {
             if (res.data.length > 0) {
-                setComment(res.data.body);
+                setComment(res.data[0].body);
             }
         });
     }, [id]);

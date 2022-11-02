@@ -52,7 +52,7 @@ const UpdateUser = async (update, token) => {
             {
                 password: update.newPassword,
                 fullname: update.newFullname,
-                listfilm: update.newListfilm,
+                listfilm: update.newListfilm || update.watchList,
                 avatar: update.newAvatar,
             },
             {
@@ -72,7 +72,7 @@ const UpdateUserId = async (update, token) => {
             {
                 password: update.newPassword,
                 fullname: update.newFullname,
-                listfilm: update.newListfilm,
+                listfilm: update.newListfilm || update.watchList,
                 avatar: update.newAvatar,
             },
             {

@@ -26,7 +26,7 @@ function Header() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setInfoUser(res.data);
+                setInfoUser(res.data[0]);
             });
         };
         if (user.username) {
@@ -39,11 +39,10 @@ function Header() {
         const FeatchApiUser = async () => {
             getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 console.log(res);
-                setInfoUser(res.data);
+                setInfoUser(res.data[0]);
             });
         };
-
-        FeatchApiUser();
+        if (userId) FeatchApiUser();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLogin]);
