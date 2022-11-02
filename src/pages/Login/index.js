@@ -45,7 +45,7 @@ function Login() {
                             src={image.facebook}
                             alt="facebook"
                             onClick={() => {
-                                window.open('http://localhost:3001/auth/facebook', '_self');
+                                window.open('https://filmpinklink.herokuapp.com/auth/facebook', '_self');
                             }}
                         />
                         <img
@@ -53,7 +53,7 @@ function Login() {
                             src={image.google}
                             alt="google"
                             onClick={() => {
-                                window.open('http://localhost:3001/auth/google', '_self');
+                                window.open('https://filmpinklink.herokuapp.com/auth/google', '_self');
                             }}
                         />
                     </div>
