@@ -23,7 +23,7 @@ function WatchFilm({ film, handleWatch, id, type }) {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setNewListfilm(res.data[0].listfilm || []);
+                setNewListfilm(res.data.listfilm || []);
             });
         };
 
@@ -35,7 +35,7 @@ function WatchFilm({ film, handleWatch, id, type }) {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setNewListfilm(res.data[0].listfilm || []);
+                setNewListfilm(res.data.listfilm || []);
             });
         };
         if (user.username) {

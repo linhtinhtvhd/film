@@ -37,7 +37,7 @@ function Content() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setNewListfilm(res.data[0].listfilm || []);
+                setNewListfilm(res.data.listfilm || []);
             });
         };
         console.log();
@@ -49,7 +49,7 @@ function Content() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setNewListfilm(res.data[0].listfilm || []);
+                setNewListfilm(res.data.listfilm || []);
             });
         };
 

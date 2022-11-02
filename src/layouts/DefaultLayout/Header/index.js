@@ -26,7 +26,7 @@ function Header() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setInfoUser(res.data[0]);
+                setInfoUser(res.data);
             });
         };
         if (user.username) {
@@ -39,7 +39,7 @@ function Header() {
         const FeatchApiUser = async () => {
             getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 console.log(res);
-                setInfoUser(res.data[0]);
+                setInfoUser(res.data);
             });
         };
 

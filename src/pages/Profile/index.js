@@ -104,8 +104,8 @@ function Profile() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setInfoUser(res.data[0]);
-                setNewListfilm(res.data[0].listfilm || []);
+                setInfoUser(res.data);
+                setNewListfilm(res.data.listfilm || []);
             });
         };
         FeatchApiUser();
@@ -114,8 +114,8 @@ function Profile() {
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
-                setInfoUser(res.data[0]);
-                setNewListfilm(res.data[0].listfilm || []);
+                setInfoUser(res.data);
+                setNewListfilm(res.data.listfilm || []);
             });
         };
         FeatchApiUser();
