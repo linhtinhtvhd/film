@@ -68,7 +68,7 @@ function Profile() {
             try {
                 await axios({
                     method: 'GET',
-                    url: 'http://localhost:3001/auth/logout',
+                    url: 'https://filmpinklink.herokuapp.com/auth/logout',
                     withCredentials: true,
                 });
             } catch (error) {}
