@@ -47,7 +47,7 @@
     .item-menu {
         line-height: 80px;
         display: inline-block;
-
+        width: 100%;
         font-size: 1.6rem;
         font-weight: 500;
         .menu-link {
@@ -58,8 +58,8 @@
         }
     }
 }
-.resp {
-    display: none;
+.islogin {
+    display: none !important;
 }
 .logout {
     display: flex;
@@ -71,8 +71,10 @@
     border-radius: 50%;
     width: 30px;
 }
-.islogin {
+
+.resp {
     display: none;
+    width: 100%;
 }
 @keyframes ani {
     from {
@@ -111,6 +113,10 @@
         position: fixed;
         z-index: 3;
     }
+    .resp {
+        display: block;
+    }
+
     .menu {
         position: fixed;
         top: 0;
@@ -151,6 +157,9 @@
     }
     .inner {
         max-width: 739px;
+    }
+    .resp {
+        display: block;
     }
     .nav-menu {
         display: none;

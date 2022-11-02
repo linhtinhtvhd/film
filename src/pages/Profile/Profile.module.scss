@@ -147,6 +147,9 @@ label.label input[type='file'] {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .input {
+        margin-top: 20px;
+    }
 }
 .list-film {
     margin-top: 10px;

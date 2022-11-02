@@ -19,23 +19,35 @@ function Profile() {
 
     const [newPassword, setNewPassword] = useState('');
     const [newFullname, setNewFullname] = useState('');
-
+    const [rePassword, setRePassword] = useState('');
+    const [errorFullname, setErrorFullname] = useState('');
+    const [errorpassword, setErrorpassword] = useState('');
+    const [errorRepassword, setErrorRepassword] = useState('');
     const [active, setActive] = useState(false);
     const handleChangePassword = async (e) => {
         e.preventDefault();
-
-        await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
-
+        if (newPassword.length < 6 || newPassword.length > 30) {
+            setErrorpassword('The password must be more than 6 and less than 30 characters long');
+        } else if (rePassword.length < 6 || rePassword.length > 30) {
+            setErrorRepassword('The repassword must be more than 6 and less than 30 characters long');
+        } else if (rePassword !== newPassword) {
+            setErrorRepassword('Nhập lại mật khẩu đi ông cháu ơi!');
+        } else {
+            await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
+        }
         passwordRef.current.value = '';
     };
+
     const handleChangeFullname = async (e) => {
         e.preventDefault();
-
-        await UpdateUser({ newFullname }, JSON.parse(localStorage.getItem('token')));
-
-        setActive(false);
-        fullnameRef.current.value = '';
-        window.location.reload();
+        if (newPassword.length === 0) {
+            setErrorFullname('The name is required');
+        } else {
+            await UpdateUser({ newFullname }, JSON.parse(localStorage.getItem('token')));
+            setActive(false);
+            fullnameRef.current.value = '';
+            window.location.reload();
+        }
     };
     const handleActive = () => {
         setActive(true);
@@ -74,7 +86,6 @@ function Profile() {
         const avatar = e.target.files[0];
         const newAvatar = await convertBase64(avatar);
         setChangeAvatar(newAvatar);
-
         await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
     };
     const convertBase64 = (avatar) => {
@@ -97,9 +108,7 @@ function Profile() {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
-
         FeatchApiUser();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user.username]);
     useEffect(() => {
@@ -109,9 +118,7 @@ function Profile() {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
-
         FeatchApiUser();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localStorage.getItem('token')]);
     useLayoutEffect(() => {
@@ -159,6 +166,9 @@ function Profile() {
                                             setNewFullname(e.target.value);
                                         }}
                                     />
+                                    <div className={cx('error', `${errorFullname ? 'active-error' : null}`)}>
+                                        {errorFullname}
+                                    </div>
                                     <button className={cx('btn-name')}>
                                         <CgShapeTriangle className={cx('icon-btn')} />
                                     </button>
@@ -184,16 +194,35 @@ function Profile() {
                                 <div className={cx('change-password', 'mt')}>
                                     <h2>Change password</h2>
                                     <form className={cx('form-changepass')} onSubmit={handleChangePassword}>
-                                        <input
-                                            ref={passwordRef}
-                                            onChange={(e) => {
-                                                setNewPassword(e.target.value);
-                                            }}
-                                            className={cx('input')}
-                                            type={'password'}
-                                            placeholder="New password"
-                                        />
-                                        <button className={cx('btn-update')}>Update</button>
+                                        <div className={cx('password-input')}>
+                                            <input
+                                                ref={passwordRef}
+                                                onChange={(e) => {
+                                                    setNewPassword(e.target.value);
+                                                }}
+                                                className={cx('input')}
+                                                type={'password'}
+                                                placeholder="New password"
+                                            />
+                                            <div className={cx('error', `${errorpassword ? 'active-error' : null}`)}>
+                                                {errorpassword}
+                                            </div>
+                                            <input
+                                                ref={passwordRef}
+                                                onChange={(e) => {
+                                                    setRePassword(e.target.value);
+                                                }}
+                                                className={cx('input')}
+                                                type={'password'}
+                                                placeholder="Nhập lại password"
+                                            />
+                                            <div className={cx('error', `${errorRepassword ? 'active-error' : null}`)}>
+                                                {errorRepassword}
+                                            </div>
+                                        </div>
+                                        <div className={cx('password-button')}>
+                                            <button className={cx('btn-update')}>Update</button>
+                                        </div>
                                     </form>
                                 </div>
                             ) : null}

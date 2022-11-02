@@ -64,7 +64,9 @@ function Similar({ similar, type }) {
                                                 className={cx('img-film')}
                                                 alt={result.original_title}
                                             />
-                                            <p className={cx('name-film')}>{result.original_title}</p>
+                                            <p className={cx('name-film')}>
+                                                {result.original_title || result.original_name}
+                                            </p>
                                         </Link>
                                     </SwiperSlide>
                                 );

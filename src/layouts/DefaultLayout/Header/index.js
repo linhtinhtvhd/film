@@ -88,18 +88,20 @@ function Header() {
                                 </Link>
                             </li>
 
-                            {infoUser ? (
-                                <li className={cx('item-menu', 'resp', `${!isLogin && 'islogin'}`)}>
-                                    <Link to={config.routes.profile} className={cx('menu-link')}>
-                                        Profile
+                            <div className={cx('resp')}>
+                                {infoUser ? (
+                                    <li className={cx('item-menu', `${!isLogin && 'islogin'}`)}>
+                                        <Link to={config.routes.profile} className={cx('menu-link')}>
+                                            Profile
+                                        </Link>
+                                    </li>
+                                ) : null}
+                                <li className={cx('item-menu', `${isLogin && 'islogin'}`)}>
+                                    <Link to={config.routes.login} className={cx('menu-link')}>
+                                        Login
                                     </Link>
                                 </li>
-                            ) : null}
-                            <li className={cx('item-menu', 'resp', `${isLogin && 'islogin'}`)}>
-                                <Link to={config.routes.login} className={cx('menu-link')}>
-                                    Login
-                                </Link>
-                            </li>
+                            </div>
                         </ul>
                     </div>
                     <Search />

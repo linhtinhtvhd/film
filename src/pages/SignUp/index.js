@@ -24,12 +24,12 @@ function Login() {
         e.preventDefault();
         if (fullname.length === 0) {
             setErrorFullname('The name is required');
-        } else if (username < 6 && username > 30) {
+        } else if (username.length < 6 || username.length > 30) {
             setErrorUsername('The username must be more than 6 and less than 30 characters long');
-        } else if (password < 6 && password > 30) {
-            setErrorUsername('The username must be more than 6 and less than 30 characters long');
-        } else if (rePassword < 6 && rePassword > 30) {
-            setErrorUsername('The username must be more than 6 and less than 30 characters long');
+        } else if (password.length < 6 || password.length > 30) {
+            setErrorpassword('The username must be more than 6 and less than 30 characters long');
+        } else if (rePassword.length < 6 || rePassword.length > 30) {
+            setErrorRepassword('The username must be more than 6 and less than 30 characters long');
         } else if (rePassword !== password) {
             setErrorRepassword('Nhập lại mật khẩu đi ông cháu ơi!');
         } else {
