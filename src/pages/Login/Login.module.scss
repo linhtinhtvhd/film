@@ -131,11 +131,13 @@
 .input {
     margin-bottom: 20px;
 }
+.toSignUp {
+    font-size: 2rem;
+    color: #4caf50;
+}
 @media only screen and (max-width: 739px) {
     .background {
-        video {
-            display: none;
-        }
+        display: none;
     }
     .login-header {
         h3 {

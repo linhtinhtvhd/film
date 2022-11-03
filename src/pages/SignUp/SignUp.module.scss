@@ -119,3 +119,34 @@
 .active-error {
     display: block;
 }
+.toSignUp {
+    font-size: 2rem;
+    color: #4caf50;
+}
+@media only screen and (max-width: 739px) {
+    .background {
+        display: none;
+    }
+    .login-header {
+        h3 {
+            font-size: 2rem;
+        }
+        p {
+            font-size: 1.6rem;
+        }
+    }
+    .error {
+        width: 300px;
+        font-size: 1.4rem;
+    }
+    .form {
+        input {
+            width: 300px;
+            background-color: #b3b3b3;
+            color: #000;
+            &::placeholder {
+                color: #000;
+            }
+        }
+    }
+}
