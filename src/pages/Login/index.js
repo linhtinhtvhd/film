@@ -29,7 +29,7 @@ function Login() {
     return (
         <div className={cx('login-page')}>
             <div className={cx('background')}>
-                <video autoPlay loop playsInLine className="video-background" muted poster={image.sci}>
+                <video autoPlay loop playsInline className="video-background" muted poster={image.sci}>
                     <source src="https://raw.githubusercontent.com/fuocy/video/master/endgame.mp4" type="video/mp4" />
                 </video>
             </div>
