@@ -36,16 +36,16 @@ function Content() {
     };
     useEffect(() => {
         const FeatchApiUser = async () => {
-            getUserId(infoUser.id, JSON.parse(localStorage.getItem('token'))).then((res) => {
+            getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
-        console.log();
-        if (infoUser) {
-            FeatchApiUser(infoUser.id);
+
+        if (userId) {
+            FeatchApiUser();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [infoUser, localStorage.getItem('token')]);
+    }, [userId, localStorage.getItem('token')]);
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {

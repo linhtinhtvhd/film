@@ -8,6 +8,5 @@ const image = {
     facebook: require(`./facebook.jfif`),
     twiter: require(`./twiter.jfif`),
     google: require(`./google.png`),
-    spiderman: require(`./videoSpiderman.mp4`),
 };
 export default image;

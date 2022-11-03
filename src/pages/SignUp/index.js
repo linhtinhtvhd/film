@@ -149,7 +149,9 @@ function Login() {
                     </div>
                     <button>Sign Up</button>
                     <p className={cx('message')}>Already a member</p>
-                    <Link to={`/login`}>Login</Link>
+                    <Link className={cx('toSignUp')} to={`/login`}>
+                        Login
+                    </Link>
                 </form>
             </div>
         </div>

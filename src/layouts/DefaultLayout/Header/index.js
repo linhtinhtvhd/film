@@ -42,8 +42,7 @@ function Header() {
                 setInfoUser(res.data[0]);
             });
         };
-
-        FeatchApiUser();
+        if (userId) FeatchApiUser();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLogin]);

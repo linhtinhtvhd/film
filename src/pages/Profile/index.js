@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState, useContext, useEffect, useRef, useLayoutEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import styles from './Profile.module.scss';
 import { CgPen, CgShapeTriangle } from 'react-icons/cg';
 import { getUser, UpdateUser, DeleteUser, getUserId, UpdateUserId } from '../../apiServices/userService';
@@ -13,6 +13,7 @@ const cx = classNames.bind(styles);
 function Profile() {
     const Navigate = useNavigate();
     const passwordRef = useRef();
+    const repasswordRef = useRef();
     const fullnameRef = useRef();
     const { user, setChangeAvatar, changeAvatar, infoUser, setInfoUser, userId, newListfilm, setNewListfilm } =
         useContext(LoginContext);
@@ -36,6 +37,7 @@ function Profile() {
             await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
         }
         passwordRef.current.value = '';
+        repasswordRef.current.value = '';
     };
 
     const handleChangeFullname = async (e) => {
@@ -56,9 +58,11 @@ function Profile() {
         const watchList = newListfilm.filter((fi) => {
             return id !== fi.id;
         });
-        console.log(watchList);
         setNewListfilm(watchList);
-        if (userId) {
+        if (!userId) {
+            UpdateUser({ watchList }, JSON.parse(localStorage.getItem('token')));
+        } else {
+            UpdateUserId({ watchList }, JSON.parse(localStorage.getItem('token')));
         }
     };
     const handleLogout = () => {
@@ -83,10 +87,11 @@ function Profile() {
         Navigate('/');
     };
     const handleChangeAvatar = async (e) => {
+        e.preventDefault();
         const avatar = e.target.files[0];
         const newAvatar = await convertBase64(avatar);
         setChangeAvatar(newAvatar);
-        await UpdateUser({ newPassword }, JSON.parse(localStorage.getItem('token')));
+        await UpdateUser({ newAvatar }, JSON.parse(localStorage.getItem('token')));
     };
     const convertBase64 = (avatar) => {
         return new Promise((resolve, reject) => {
@@ -101,16 +106,18 @@ function Profile() {
             };
         });
     };
+
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUser(user.username, JSON.parse(localStorage.getItem('token'))).then((res) => {
+                console.log(res);
                 setInfoUser(res.data[0]);
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
         FeatchApiUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user.username]);
+    }, [localStorage.getItem('token'), user.username]);
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
@@ -118,24 +125,10 @@ function Profile() {
                 setNewListfilm(res.data[0].listfilm || []);
             });
         };
-        FeatchApiUser();
+        if (userId) FeatchApiUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localStorage.getItem('token')]);
-    useLayoutEffect(() => {
-        const featchUpdate = async () => {
-            await UpdateUser({ newListfilm }, JSON.parse(localStorage.getItem('token')));
-        };
 
-        if (newListfilm.length > 0 && !userId) {
-            featchUpdate();
-        }
-    }, [newListfilm, user.username]);
-    useLayoutEffect(() => {
-        const featchUpdate = async () => {
-            await UpdateUserId({ newListfilm }, JSON.parse(localStorage.getItem('token')));
-        };
-        if (newListfilm.length > 0) featchUpdate();
-    }, [newListfilm, userId]);
     return (
         <>
             {infoUser ? (
@@ -208,7 +201,7 @@ function Profile() {
                                                 {errorpassword}
                                             </div>
                                             <input
-                                                ref={passwordRef}
+                                                ref={repasswordRef}
                                                 onChange={(e) => {
                                                     setRePassword(e.target.value);
                                                 }}
@@ -235,7 +228,7 @@ function Profile() {
                             />
                             <div className={cx('logout')}>
                                 <div className={cx('change-avatar')}>
-                                    <form action="/form/sumbit" method="get">
+                                    <form>
                                         <label className={cx('label')}>
                                             <input type={'file'} required onChange={(e) => handleChangeAvatar(e)} />
                                             <span>Change Avatar</span>
