@@ -34,7 +34,7 @@ function Header() {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLogin]);
+    }, [isLogin, localStorage.getItem('token')]);
     useEffect(() => {
         const FeatchApiUser = async () => {
             getUserId(userId, JSON.parse(localStorage.getItem('token'))).then((res) => {
