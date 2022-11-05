@@ -39,7 +39,7 @@ function Login() {
                         <h3>LOGIN</h3>
                         <p>Please enter your credentials to login.</p>
                     </div>
-                    <div className={cx('face')}>
+                    {/* <div className={cx('face')}>
                         <img
                             className={cx('logo-img')}
                             src={image.facebook}
@@ -56,7 +56,7 @@ function Login() {
                                 window.open('https://filmpinklink.herokuapp.com/auth/google', '_self');
                             }}
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <form className={cx('login-form')} onSubmit={handleLogin}>
                     <div className={cx('input')}>
