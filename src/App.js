@@ -6,30 +6,30 @@ import { Fragment, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { LoginContext } from './layouts/LoginLayout/LoginContext';
 function App() {
-    const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
+    // const { setInfoUser, setIsLogin, setUserId } = useContext(LoginContext);
 
-    useEffect(() => {
-        const getUser = async () => {
-            try {
-                await axios({
-                    method: 'GET',
-                    url: 'https://filmpinklink.herokuapp.com/auth/login/success',
-                    withCredentials: true,
-                }).then((res) => {
-                    console.log(res);
-                    if (res) {
-                        setIsLogin(true);
-                        localStorage.setItem('isLogin', true);
-                        localStorage.setItem('token', JSON.stringify(res.data.user.token));
-                    }
-                    setUserId(res.data.user.profile.id);
-                    setInfoUser(res.data.user.profile);
-                });
-            } catch (error) {}
-        };
-        getUser();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     const getUser = async () => {
+    //         try {
+    //             await axios({
+    //                 method: 'GET',
+    //                 url: 'https://filmpinklink.herokuapp.com/auth/login/success',
+    //                 withCredentials: true,
+    //             }).then((res) => {
+    //                 console.log(res);
+    //                 if (res) {
+    //                     setIsLogin(true);
+    //                     localStorage.setItem('isLogin', true);
+    //                     localStorage.setItem('token', JSON.stringify(res.data.user.token));
+    //                 }
+    //                 setUserId(res.data.user.profile.id);
+    //                 setInfoUser(res.data.user.profile);
+    //             });
+    //         } catch (error) {}
+    //     };
+    //     getUser();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     return (
         <Router>
