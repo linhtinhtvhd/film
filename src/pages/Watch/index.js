@@ -182,7 +182,7 @@ function Watch() {
                 setComment(res.data[0].body);
             }
         });
-    }, [id]);
+    }, [id, localStorage.getItem('token')]);
     useEffect(() => {
         const featchUpdate = async () => {
             await updateComment({ comment, id });
