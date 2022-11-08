@@ -61,7 +61,7 @@ function Login() {
                         <input
                             ref={nameRef}
                             type={'text'}
-                            placeholder="fullname"
+                            placeholder="Fullname"
                             onChange={(e) => {
                                 setFullname(e.target.value);
                                 if (e.target.value.length > 0) {
@@ -80,7 +80,7 @@ function Login() {
                         <input
                             ref={userRef}
                             type={'email'}
-                            placeholder="username"
+                            placeholder="Username or Email"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                                 if (e.target.value.length > 5 && e.target.value.length < 31) {
@@ -101,7 +101,7 @@ function Login() {
                         <input
                             ref={passRef}
                             type={'password'}
-                            placeholder="password"
+                            placeholder="Password"
                             onChange={(e) => {
                                 setPassword(e.target.value);
                                 if (e.target.value.length > 5 && e.target.value.length < 31) {
@@ -125,7 +125,7 @@ function Login() {
                         <input
                             ref={RepassRef}
                             type={'password'}
-                            placeholder="password"
+                            placeholder="RePassword"
                             onChange={(e) => {
                                 setRePassword(e.target.value);
                                 if (e.target.value.length > 5 && e.target.value.length < 31) {

@@ -15,16 +15,24 @@ function Login() {
     const [password, setPassword] = useState('');
     const [errorUsername, setErrorUsername] = useState('');
     const [errorpassword, setErrorpassword] = useState('');
+    const [errorLogin, setErrorLogin] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const res = await LoginUser(username, password);
-        if (res) {
-            navigate('/profile');
-            setToken(res);
-            setUser({ username, password });
-            localStorage.setItem('isLogin', true);
-        }
+
+        setTimeout(() => {
+            if (res) {
+                navigate('/profile');
+                setToken(res);
+                setUser({ username, password });
+                localStorage.setItem('isLogin', true);
+            } else {
+                setErrorLogin(true);
+                setUsername('');
+                setPassword('');
+            }
+        }, 2000);
     };
     return (
         <div className={cx('login-page')}>
@@ -58,13 +66,18 @@ function Login() {
                         />
                     </div> */}
                 </div>
+                {errorLogin ? (
+                    <div className={cx('error-login')}>Tên tài khoản hoặc mật khẩu không chính xác!</div>
+                ) : null}
                 <form className={cx('login-form')} onSubmit={handleLogin}>
                     <div className={cx('input')}>
                         <input
                             type={'email'}
-                            placeholder="username"
+                            placeholder="Username or Email"
+                            value={username}
                             onChange={(e) => {
                                 setUsername(e.target.value);
+                                setErrorLogin(false);
                                 if (e.target.value.length > 5 && e.target.value.length < 31) {
                                     setErrorUsername('');
                                 }
@@ -83,8 +96,10 @@ function Login() {
                         <input
                             type={'password'}
                             placeholder="password"
+                            value={password}
                             onChange={(e) => {
                                 setPassword(e.target.value);
+                                setErrorLogin(false);
                                 if (e.target.value.length > 5 && e.target.value.length < 31) {
                                     setErrorpassword('');
                                 }
