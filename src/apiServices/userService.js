@@ -59,6 +59,7 @@ const UpdateUser = async (update, token) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
+                    'Access-Control-Allow-Origin': true,
                 },
             },
         );
@@ -78,6 +79,7 @@ const UpdateUserId = async (update, token) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
+                    'Access-Control-Allow-Origin': true,
                 },
             },
         );
